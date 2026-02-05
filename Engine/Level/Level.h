@@ -1,0 +1,31 @@
+#pragma once
+#include "EngineCommon/RTTI.h"
+
+BEGIN(System)
+class Actor;
+
+class ENGINE_DLL Level : public RTTI
+{
+	RTTI_DECLARATIONS(Level, RTTI)
+public:
+	Level();
+	virtual ~Level();
+
+public:
+	//pure virtuals
+	virtual void BeginPlay() = 0;
+	virtual void Tick(float _fDeltaTime) = 0;
+	virtual void Render() = 0;
+
+public:
+	void AddNewActor(Actor* pNewActor);
+	void Process_AddNDestroyActors();
+
+protected:
+	vector<Actor*> m_vecActors;
+
+	//실행중 추가요청된 액터들의 배열
+	vector<Actor*> m_vecAddReqActors;
+};
+
+END

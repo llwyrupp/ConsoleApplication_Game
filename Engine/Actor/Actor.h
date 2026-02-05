@@ -1,0 +1,63 @@
+#pragma once
+#include "EngineCommon/Engine_Includes.h"
+#include "EngineCommon/RTTI.h"
+
+BEGIN(System)
+
+class Level;
+class ENGINE_DLL  Actor : public RTTI
+{
+	RTTI_DECLARATIONS(Actor, RTTI)
+
+public:
+	Actor(const char* pImage = " ", const Vector2& vPos = Vector2::Zero, Color color = Color::eWhite);
+	virtual ~Actor();
+
+public:
+	//pure virtuals
+	virtual void BeginPlay() = 0;
+	virtual void Tick(float _fDeltaTime) = 0;
+	virtual void Render() = 0;
+
+public:
+	void SetPos(const Vector2& vNewPos);
+	inline Vector2 GetPos() const { return m_vPosition; }
+
+	inline void SetLevel(Level* pLevel) { m_pLevel = pLevel; }
+	inline Level* GetLevel() const { return m_pLevel; }
+
+	inline bool Get_HasBegunPlay() const { return m_bHasBegunPlay; }
+	inline bool IsActive() const { return m_bHasBegunPlay; }
+	inline bool Get_IsDestroyRequested() const { return m_bIsDestroyRequested; }
+
+	inline int Get_SortingOrder() const { return m_iSortingOrder; }
+protected:
+	//beginplay에 들어가면 세팅되는 플래그값
+	bool m_bHasBegunPlay = false;
+
+	//활성화상태?
+	bool m_bIsActive = true;
+
+	//현재 프레임에 삭제요청 받았는지 확인하는 용도
+	bool m_bIsDestroyRequested = false;
+
+	//letter to draw(image)
+	char* m_pImage = nullptr;
+
+	//length of string
+	int m_iStringWidth = 0;
+
+	//color of letter
+	Color m_eColor = Color::eWhite;
+
+	//종속된 레벨
+	Level* m_pLevel = nullptr;
+
+	//the bigger, the higher the priority
+	int m_iSortingOrder = 0;
+
+private:
+	Vector2 m_vPosition;
+};
+
+END
