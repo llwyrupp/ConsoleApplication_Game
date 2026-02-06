@@ -1,12 +1,11 @@
 #pragma once
 #include "EngineCommon/Engine_Includes.h"
-#include "EngineCommon/Singleton.h"
 
 BEGIN(System)
 	class InputMgr;
 	class Renderer;
 	class CollisionMgr;
-	class ENGINE_DLL Engine : public Singleton<Engine>
+	class ENGINE_DLL Engine
 	{
 		//grant the base class asccess to private parts
 		//friend class Singleton<Engine>;
@@ -32,6 +31,8 @@ BEGIN(System)
 	public:
 		inline int GetWidth() const { return m_stSetting.iWidth; }
 		inline int GetHeight() const { return m_stSetting.iHeight; }
+	public:
+		static Engine& Get_Instance();
 	protected:
 		void BeginPlay();
 		void Tick(float _fDeltaTime);
@@ -45,5 +46,6 @@ BEGIN(System)
 		Renderer* m_pRenderer = nullptr;
 		CollisionMgr* m_pCollisionMgr = nullptr;
 		class Level* m_pMainLevel = nullptr;
+		static Engine* m_pInstance;
 	};
 END

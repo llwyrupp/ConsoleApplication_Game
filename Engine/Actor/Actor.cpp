@@ -3,15 +3,27 @@
 
 BEGIN(System)
 
-Actor::Actor(const char* pImage /*= " "*/, const Vector2& vPos /*= Vector2::Zero*/, Color color /*= Color::eWhite*/)
-	:m_vPosition(vPos), m_eColor(color)
+Actor::Actor(const char* pImage, const char* pPath, const Vector2& vPos, Color color)
+	:m_vPosition(vPos), m_eColor(color), m_iStringHeight(1), m_iStringWidth(1)
 {
-	size_t szLen = strlen(pImage) + 1;//include null.
-	m_pImage = new char[szLen];
-	memset(m_pImage, 0, sizeof(char) * szLen);//initialize
-	strcpy_s(m_pImage, sizeof(char) * szLen, m_pImage);
+	if (!pImage && !pPath) {
+		cerr << "============YOU NEED AT LEAST ONE: CHAR or PATH============" << this->GetType();
+		__debugbreak();
+	}
 
-	m_iStringWidth = static_cast<int>(strlen(pImage));
+	if (pImage) {
+		size_t szLen = strlen(pImage) + 1;
+		m_pImage = new char[szLen];
+		strcpy_s(m_pImage, sizeof(char) * szLen, pImage);
+	}
+	else if (pPath) {
+		LoadString_FromFile(pPath);
+	}
+	
+
+	//ppathê°€ ì—†ëŠ” ì»´í¬ë„ŒíŠ¸ë“¤(wall, ground, etc.)ì€ ì‚¬ì´ì¦ˆ 1x1ë¡œ ê³ ì •.
+	SetActorRect();
+
 }
 
 Actor::~Actor()
@@ -34,14 +46,76 @@ void Actor::Render()
 	Renderer::Get_Instance().Submit(m_pImage, m_vPosition, m_eColor, m_iSortingOrder);
 }
 
+void Actor::SetActorRect()
+{
+	m_rtSize.left = static_cast<long>(m_vPosition.m_iX);
+	m_rtSize.top = static_cast<long>(m_vPosition.m_iY);
+	m_rtSize.right = static_cast<long>(m_vPosition.m_iX + m_iStringWidth);
+	m_rtSize.bottom = static_cast<long>(m_vPosition.m_iY + m_iStringHeight);
+}
+
 void Actor::SetPos(const Vector2& vNewPos)
 {
-	//º¯°æÇÏ·Á´Â À§Ä¡°¡ Çö À§Ä¡¿Í µ¿ÀÏÇÏ¸é ½ºÅµ.
+	//ë³€ê²½í•˜ë ¤ëŠ” ìœ„ì¹˜ê°€ í˜„ ìœ„ì¹˜ì™€ ë™ì¼í•˜ë©´ ìŠ¤í‚µ.
 	if (m_vPosition == vNewPos)
 		return;
 
-	//»õ À§Ä¡°ªÀ¸·Î ¾×ÅÍ À§Ä¡ °»½Å
+	//ìƒˆ ìœ„ì¹˜ê°’ìœ¼ë¡œ ì•¡í„° ìœ„ì¹˜ ê°±ì‹ 
 	m_vPosition = vNewPos;
+}
+
+void Actor::LoadString_FromFile(const char* _pPath)
+{
+	FILE* pFile = nullptr;
+	fopen_s(&pFile, _pPath, "rt");
+	if (!pFile) {
+		cerr << "FAILED TO OPEN FILE"<< _pPath;
+		__debugbreak();
+	}
+
+	char cBuffer[MAX_STRING_LEN] = {};
+
+	size_t szLen = fread(cBuffer, sizeof(char), MAX_STRING_LEN, pFile);
+
+	if (szLen == 0) {
+		cerr << "No file at: "<< _pPath;
+		__debugbreak();
+	}
+
+	char* pToken = {};
+	char* pContext = {};
+	if (!m_pImage)
+	{
+		m_pImage = new char[MAX_STRING_LEN];
+		memset(m_pImage, 0, sizeof(char) * MAX_STRING_LEN);
+	}
+
+	
+	pToken = strtok_s(cBuffer, "\n", &pContext);//read the first line
+	size_t szTotalLen = 0;
+	while (pToken) {
+		char pLine[MAX_STRING_LEN] = {};
+		//ê°œí–‰ë¬¸ìë¡œ ê° í–‰ì˜ ë¬¸ìì—´ ë¶„ë¦¬ í›„ ì €ì¥
+		sscanf_s(pToken, "%s", pLine, MAX_STRING_LEN);
+		szLen = strlen(pLine) + 1;
+
+		strcat_s(m_pImage, sizeof(char) * MAX_STRING_LEN, pLine);
+		strcat_s(m_pImage, sizeof(char) * MAX_STRING_LEN, "\n");
+		
+		//strcpy_s(m_pImage + szTotalLen, szLen, pLine);
+		//szTotalLen += szLen;
+
+		//ê°œí–‰ìœ¼ë¡œ ë¬¸ìì—´ ë¶„ë¦¬
+		pToken = strtok_s(nullptr, "\n", &pContext);
+
+		++m_iStringHeight;
+	}
+
+	//remove the last '\n'
+	size_t szTempIdx = strlen(m_pImage) - 1;
+	m_pImage[szTempIdx] = '\0';
+
+	fclose(pFile);
 }
 
 END

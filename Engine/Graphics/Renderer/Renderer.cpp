@@ -3,6 +3,8 @@
 #include<iostream>
 BEGIN(System)
 
+Renderer* Renderer::m_pInstance = nullptr;
+
 #pragma region FRAME
 Renderer::tagFrame::tagFrame(int iBufCnt)
 {
@@ -49,6 +51,8 @@ void Renderer::tagFrame::Clear(const Vector2& vScreenSize)
 Renderer::Renderer(const Vector2& vScreenSize)
 	:m_vScreenSize(vScreenSize)
 {
+	m_pInstance = this;
+
 	const int iBufCnt = vScreenSize.m_iX * vScreenSize.m_iY;
 
 	m_pFrame = new FRAME(iBufCnt);
@@ -155,6 +159,15 @@ void Renderer::Submit(const char* pText, const Vector2& vPos, Color eColor, int 
 	renderCom.iSortingOrder = iSortOrder;
 
 	m_vecRenderQueue.emplace_back(renderCom);
+}
+
+Renderer& Renderer::Get_Instance() {
+	if (!m_pInstance) {
+		cerr << "RENDERER INSTANCE is NULL";
+		__debugbreak();
+	}
+
+	return *m_pInstance;
 }
 
 void Renderer::Clear()

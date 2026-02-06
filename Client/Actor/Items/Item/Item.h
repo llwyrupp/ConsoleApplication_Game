@@ -1,5 +1,8 @@
 #pragma once
-#include "EngineCommon/Engine_Defines.h"
+#ifndef __ITEM_H__
+#define __ITEM_H__
+
+#include "ClientCommon/Client_Includes.h"
 #include "Actor/Actor.h"
 
 USING(System)
@@ -16,3 +19,4 @@ private:
 	
 };
 
+#endif

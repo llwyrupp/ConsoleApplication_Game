@@ -1,11 +1,10 @@
 #pragma once
 #include "EngineCommon/Engine_Includes.h"
-#include "EngineCommon/Singleton.h"
 
 BEGIN(System)
 #define MAX_NUM_BUFFER 2
 class ScreenBuffer;
-class ENGINE_DLL Renderer : public Singleton<Renderer>
+class ENGINE_DLL Renderer
 {
 	typedef struct tagFrame {
 		tagFrame(int iBufCnt);
@@ -45,6 +44,9 @@ public:
 
 	//렌더 batch에 한꺼번에 받아서 출력하기 위해 데이터를 적재한다.
 	void Submit(const char* pText, const Vector2& vPos, Color eColor = Color::eWhite, int iSortOrder = 0);
+
+public:
+	static Renderer& Get_Instance();
 private:
 	//clear screen.
 	void Clear();
@@ -71,6 +73,9 @@ private:
 	//render queue(internally implemented with std::vector.
 	//put all rendering commands in this vector)
 	vector<RENDERCOM> m_vecRenderQueue;
+
+private:
+	static Renderer* m_pInstance;
 };
 
 END

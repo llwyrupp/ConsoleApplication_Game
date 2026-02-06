@@ -36,10 +36,7 @@
     <ClInclude Include="Game\Game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Level\Level.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ClientCommon\Includes.h">
+    <ClInclude Include="ClientCommon\Client_Includes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ClientCommon\Client_Struct.h">
@@ -49,6 +46,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Level\MenuLevel\MenuLevel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Level\FieldLevel\FieldLevel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor\MapComponents\Wall\Wall.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor\MapComponents\Ground\Ground.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -68,13 +74,19 @@
     <ClCompile Include="Game\Game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Level\Level.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Actor\Items\Gear\Gear.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Level\MenuLevel\MenuLevel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Level\FieldLevel\FieldLevel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor\MapComponents\Wall\Wall.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor\MapComponents\Ground\Ground.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

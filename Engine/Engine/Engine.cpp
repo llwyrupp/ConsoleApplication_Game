@@ -6,11 +6,16 @@
 #include "CollisionManager/CollisionMgr.h"
 #include "Util/Util.h"
 
+USING(Util)
+
 BEGIN(System)
 
+Engine* Engine::m_pInstance = nullptr;
 
 Engine::Engine()
 {
+	m_pInstance = this;
+
 	//create systems
 	//input system
 	m_pInput = new InputMgr();
@@ -29,8 +34,10 @@ Engine::Engine()
 
 
 	//turn of cursor.
+	Util::TurnOffCursor();
 
 	//set random seed
+	SetRandomSeed();
 	
 }
 
@@ -43,6 +50,52 @@ Engine::~Engine()
 
 void Engine::Run()
 {
+	LARGE_INTEGER m_Frequency;//frequency
+	QueryPerformanceFrequency(&m_Frequency);
+
+	int64_t t_curTime = 0;//(STL에서 타입재정의된 것)
+	int64_t t_prevTime = 0;
+
+	//HARDWARE TIMER로 시간 구하기
+	LARGE_INTEGER m_FrameTime;//time
+	QueryPerformanceCounter(&m_FrameTime);//이 함수가 실행되는 실제 시간, 하드웨어 시간
+
+	t_curTime = m_FrameTime.QuadPart;
+	t_prevTime = t_curTime;
+
+	m_stSetting.fFrameRate = m_stSetting.fFrameRate == 0.f ? 60.f : m_stSetting.fFrameRate;
+	float fOneFrameTime = 1.f / m_stSetting.fFrameRate;//1프레임당 몇 초
+
+	//engine loop
+	while (!m_bIsQuit) {
+		QueryPerformanceCounter(&m_FrameTime);
+		t_curTime = m_FrameTime.QuadPart;
+		float fDeltaTime = static_cast<float>(t_curTime - t_prevTime);
+		fDeltaTime /= static_cast<float>(m_Frequency.QuadPart);
+
+		//고정 프레임 기법.
+		if (fDeltaTime >= fOneFrameTime)
+		{
+			m_pInput->ProcessInput();
+
+			BeginPlay();
+			Tick(fDeltaTime);
+			Render();
+
+			t_prevTime = t_curTime;//update
+
+			m_pInput->SavePrevInputStates();
+
+			//레벨에 요청된 추가/제거 처리
+			if(m_pMainLevel)
+				m_pMainLevel->Process_AddNDestroyActors();
+		}
+	}
+	//@TODO: 프로그램 종료
+	cout << "Program Quit.\n";
+
+
+	ShutDown();
 }
 
 void Engine::QuitEngine()
@@ -58,11 +111,13 @@ void Engine::SetNewLevel(Level* pNewLevel)
 
 void Engine::ShutDown()
 {
-
+	TurnOnCursor();
 }
 
 void Engine::LoadSetting()
 {
+	m_stSetting = {};
+
 	FILE* pFile = nullptr;
 	fopen_s(&pFile, "../Config/Settings.txt", "rt");
 
@@ -139,5 +194,14 @@ void Engine::Render()
 	m_pRenderer->Render();
 }
 
+Engine& Engine::Get_Instance()
+{
+	if (!m_pInstance) {
+		cerr << "ENGINE INSTANCE is NULL";
+		__debugbreak();
+	}
+
+	return *m_pInstance;
+}
 
 END

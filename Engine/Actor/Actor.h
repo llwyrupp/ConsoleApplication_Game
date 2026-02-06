@@ -10,7 +10,7 @@ class ENGINE_DLL  Actor : public RTTI
 	RTTI_DECLARATIONS(Actor, RTTI)
 
 public:
-	Actor(const char* pImage = " ", const Vector2& vPos = Vector2::Zero, Color color = Color::eWhite);
+	Actor(const char* pImage = nullptr, const char* pPath = nullptr, const Vector2& vPos = Vector2::Zero, Color color = Color::eWhite);
 	virtual ~Actor();
 
 public:
@@ -18,8 +18,9 @@ public:
 	virtual void BeginPlay() = 0;
 	virtual void Tick(float _fDeltaTime) = 0;
 	virtual void Render() = 0;
-
 public:
+	void LoadString_FromFile(const char* _pPath);
+	void SetActorRect();
 	void SetPos(const Vector2& vNewPos);
 	inline Vector2 GetPos() const { return m_vPosition; }
 
@@ -32,29 +33,37 @@ public:
 
 	inline int Get_SortingOrder() const { return m_iSortingOrder; }
 protected:
-	//beginplay¿¡ µé¾î°¡¸é ¼¼ÆÃµÇ´Â ÇÃ·¡±×°ª
+	//beginplayì— ë“¤ì–´ê°€ë©´ ì„¸íŒ…ë˜ëŠ” í”Œë˜ê·¸ê°’
 	bool m_bHasBegunPlay = false;
 
-	//È°¼ºÈ­»óÅÂ?
+	//í™œì„±í™”ìƒíƒœ?
 	bool m_bIsActive = true;
 
-	//ÇöÀç ÇÁ·¹ÀÓ¿¡ »èÁ¦¿äÃ» ¹Ş¾Ò´ÂÁö È®ÀÎÇÏ´Â ¿ëµµ
+	//í˜„ì¬ í”„ë ˆì„ì— ì‚­ì œìš”ì²­ ë°›ì•˜ëŠ”ì§€ í™•ì¸í•˜ëŠ” ìš©ë„
 	bool m_bIsDestroyRequested = false;
 
 	//letter to draw(image)
 	char* m_pImage = nullptr;
 
+	//is using custom image? (1x1 or NxN?)
+	//bool m_bIsUsingCustomImg = false;
+
 	//length of string
-	int m_iStringWidth = 0;
+	int m_iStringWidth = 1;
+	//height of string
+	int m_iStringHeight = 1;
 
 	//color of letter
 	Color m_eColor = Color::eWhite;
 
-	//Á¾¼ÓµÈ ·¹º§
+	//ì¢…ì†ëœ ë ˆë²¨
 	Level* m_pLevel = nullptr;
 
 	//the bigger, the higher the priority
 	int m_iSortingOrder = 0;
+
+protected:
+	RECT m_rtSize = {};
 
 private:
 	Vector2 m_vPosition;

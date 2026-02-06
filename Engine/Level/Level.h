@@ -1,4 +1,5 @@
 #pragma once
+#include "EngineCommon/Engine_Includes.h"
 #include "EngineCommon/RTTI.h"
 
 BEGIN(System)

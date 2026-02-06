@@ -1,0 +1,169 @@
+Common
+-Body(hp)
+-Limbs
+	-Arms
+	-Torso
+	-Right Leg
+	-Left Leg
+	-Head
+
+Player
+-all players have limbs.
+-Body(player hp)
+-Mind(player mp)
+
+Game(Singleton)
+-레벨들 일괄 관리
+-게임state저장
+
+Enemy(virtual)
+-Goblin
+-Werewolf
+-The Sun(BossMonster)
+-all enemies have limbs.
+
+아이템 클래스는 굳이 상속관계로 할 필요 X
+그냥 각각 Actor클래스 상속하는것으로 진행
+각 아이템 타입(ITEM, MELEE, GEAR, KEY ITEM)마다 enum class 선언해서 그 타입별로 능력치 적용 및 액티브 사용효과 추가
+Item(virtual)
+ITEM:(힐템, 음식, 마나템, 이상효과 제거 아이템, 투척무기, 일회용 사용무기, 탄약, 열쇠)
+-Bandages
+-first aid kit
+
+MELEE:(무기 ONLY)
+-weapons
+-Rifle
+-Handgun
+-Dagger
+-longsword
+
+
+GEAR:각 장비마다 능력치 부여, 별도의 클래스 필요 X, 각종 능력치 부여하는 악세사리, 총기류
+-Rags
+-Polo Shirt
+-Glasses
+-Pistol
+-Shotgun
+-Rifle
+-Leather Vest
+-Baseball Cap
+-Denim Vest
+
+
+
+
+Skills
+--BASIC
+Party Talk
+-Talk
+-Run(higher chance to flee)
+-
+--learn from SKILLTREE
+-Bob and weave
+-Gun proficiency
+-Hurting
+-Necromancy
+-Black Orb
+-Loving whispers
+-pheromones
+-Rot
+--Combustion
+
+Damage Mechanism:
+-bleeding(continues to bleed every turn)
+-blind(misses an attack for a turn)
+-confused(cannot use skill for a turn)
+-stunned(cannot attack for a turn)
+-burning(continues to burn every turn)
+-taunted(when used pheromones, get taunted for a turn)
+
+map(static)
+-walls
+-ground
+-should be able to scroll the map.(iscrollX, iscrollY)
+
+
+effects
+-hit effects
+-burn effects
+-flash effects
+-
+
+scene(level)
+-mainmenu
+-select character
+-top-down view(funger style)
+-battle scene(look outside style)
+-skill tree scene
+-player status scene
+
+
+attack sequence:
+1. Fight!
+2. Run!
+
+if you choose to fight:
+1. attack
+2. skills
+3. rev up
+4. guard
+5. items
+6.Equip
+7. flee(escape)
+
+if you choose to run:
+
+
+battle scene:
+first-person(look outside style)
+but the limbs system added(funger style)
+add dialogues.
+
+character selection:
+4 characters.
+
+
+
+
+
+
+
+
+
+
+--------------MAP--------------
+맵 타일
+맵 바운더리
+맵 지형물(나무, 바위)
+
+
+
+--------------BATTLE SEQUENCE--------------
+1.Fight
+2.Escape
+===============
+1.Attack
+2.Special
+3.Ranged
+4.Guard
+5.Item
+=================
+<Attack>
+아군 배열 순회하며 각자 공격대상 선택
+공격 내용 위에 출력하기
+피격효과 출력하기, 화면 흔들림 효과 추가
+
+<Special>
+사용할 스킬 선택 후:
+공격->대상선정
+패시브/논패시브에 따라 결정
+
+
+
+<Ranged>
+원거리 무기 소지 시 사용가능,
+탄약 개수 세는 변수 필요
+
+<GAMEOVER>
+체력이 다할 경우 unconscious 상태에 빠짐(소생불가)
+Mind 바닥날 경우 방어력 저하, 공격력 저하, 모든 입는 피해 증가(debuff)

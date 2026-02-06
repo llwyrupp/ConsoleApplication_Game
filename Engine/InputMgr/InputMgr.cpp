@@ -1,9 +1,11 @@
 #include "InputMgr/InputMgr.h"
 
 BEGIN(System)
+InputMgr* InputMgr::m_pInstance = nullptr;
 
 InputMgr::InputMgr()
 {
+	m_pInstance = this;
 }
 
 InputMgr::~InputMgr()
@@ -37,4 +39,15 @@ void InputMgr::SavePrevInputStates()
 	for (int i = 0; i < MAX_SIZE_KEYSTATE; ++i)
 		m_stKeyStates[i].bWasKeyDown = m_stKeyStates[i].bIsKeyDown;
 }
+
+InputMgr& InputMgr::Get_Instance()
+{
+	if (!m_pInstance) {
+		cerr << "InputMgr INSTANCE is NULL";
+		__debugbreak();
+	}
+
+	return *m_pInstance;
+}
+
 END

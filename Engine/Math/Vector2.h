@@ -3,7 +3,6 @@
 
 BEGIN(System)
 
-#define MAX_STRLEN 128
 class ENGINE_DLL  Vector2
 {
 public:

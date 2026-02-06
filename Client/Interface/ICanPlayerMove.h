@@ -1,4 +1,6 @@
 #pragma once
+#ifndef __ICANPLAYERMOVE_H__
+#define __ICANPLAYERMOVE_H__
 #include "Math/Vector2.h"
 
 // 플레이어가 이동할 위치를 판단해주는 인터페이스.
@@ -15,3 +17,5 @@ public:
 		const Vector2& nextPosition
 	) = 0;
 };
+
+#endif

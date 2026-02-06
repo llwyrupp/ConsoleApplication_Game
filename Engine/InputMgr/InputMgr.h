@@ -1,11 +1,10 @@
 #pragma once
 #include "EngineCommon/Engine_Includes.h"
-#include "EngineCommon/Singleton.h"
 
 BEGIN(System)
 
 #define MAX_SIZE_KEYSTATE 256
-	class ENGINE_DLL InputMgr : public Singleton<InputMgr>
+	class ENGINE_DLL InputMgr
 	{
 	friend class Engine;
 
@@ -27,6 +26,8 @@ BEGIN(System)
 		bool GetKeyUp(int iKeyCode);
 		// 현재 눌려있으면 반복 호출.
 		bool GetKey(int iKeyCode);
+	public:
+		static InputMgr& Get_Instance();
 	private:
 		//입력 처리
 		void ProcessInput();
@@ -34,5 +35,6 @@ BEGIN(System)
 		void SavePrevInputStates();
 	private:
 		KEYSTATE m_stKeyStates[MAX_SIZE_KEYSTATE] = {};
+		static InputMgr* m_pInstance;
 	};
 END

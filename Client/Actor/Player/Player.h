@@ -1,19 +1,27 @@
 #pragma once
-
-#include "EngineCommon/Engine_Defines.h"
+#ifndef __PLAYER_H__
+#define __PLAYER_H__
+#include "ClientCommon/Client_Includes.h"
 #include "Actor/Actor.h"
 
 USING(System)
 
-class ENGINE_DLL Player : public Actor
+class Player : public Actor
 {
 	RTTI_DECLARATIONS(Player, Actor)
 public:
-	Player();
-	~Player();
+	Player(const Vector2& vPos);
+	virtual ~Player();
 
+public:
+	virtual void BeginPlay() override;
+	virtual void Tick(float _fDeltaTime) override;
+	virtual void Render() override;
+
+public:
 private:
 	
 
 };
 
+#endif

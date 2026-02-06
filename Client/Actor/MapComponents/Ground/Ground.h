@@ -1,23 +1,23 @@
 #pragma once
-#ifndef __ENEMY_H__
-#define __ENEMY_H__
+#ifndef __GROUND_H__
+#define __GROUND_H__
 #include "ClientCommon/Client_Includes.h"
 #include "Actor/Actor.h"
 
 USING(System)
-class Enemy : public Actor
+class Ground : public Actor
 {
-	RTTI_DECLARATIONS(Enemy, Actor)
+	RTTI_DECLARATIONS(Ground, Actor)
 public:
-	Enemy();
-	virtual ~Enemy();
+	Ground(const Vector2& vPos);
+	virtual ~Ground();
+private:
+
 public:
 	virtual void BeginPlay() override;
 	virtual void Tick(float _fDeltaTime) override;
 	virtual void Render() override;
-protected:
-	ENEMYINFO m_tInfo = {};
-};
 
+};
 
 #endif

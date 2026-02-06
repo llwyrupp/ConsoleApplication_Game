@@ -1,6 +1,7 @@
+#include "ClientCommon/Client_Includes.h"
 #include "Level/MenuLevel/MenuLevel.h"
 
-
+USING(System)
 
 MenuLevel::MenuLevel()
 	:m_iCurMenuIdx(0)

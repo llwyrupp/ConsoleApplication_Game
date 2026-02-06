@@ -1,10 +1,12 @@
 #pragma once
+#ifndef __MENULEVEL_H__
+#define __MENULEVEL_H__
+
 #include "EngineCommon/Engine_Includes.h"
 #include "EngineCommon/RTTI.h"
 #include "Level/Level.h"
 
 USING(System)
-
 typedef struct tagMenuObject {
 	//메뉴가 실행됐을때 실행될 함수의 타입(콜백으로 실행됨)
 	//void* 형을 반환하는 함수를 사용
@@ -46,3 +48,4 @@ private:
 	vector<MENUOBJECT*> m_vecMenuObjects;
 };
 
+#endif

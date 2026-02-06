@@ -3,6 +3,7 @@
 #ifndef __ENGINE_FUNCTION_H__
 #define __ENGINE_FUNCTION_H__
 
+BEGIN(System)
 #pragma region GENERAL
 //check if the pointer is a nullptr. if it is, return.
 template<typename T>
@@ -28,11 +29,19 @@ void Safe_Delete_Arr(T*& ptr) {
 		ptr = nullptr;
 	}
 }
-#pragma endregion MEMORY
 
-#pragma region RANDOM
+//void AllocateMem_Arr(T& _pDestArr, T& _pSrcArr)
+//{
+//	size_t szLen = strlen(_pSrcArr) + 1;
+//	_pDestArr = new T[szLen];
+//	strcpy_s(_pDestArr, sizeof(T) * szLen, _pSrcArr);
+//}
+#pragma endregion MEMORY
+END
+
 
 BEGIN(Util)
+#pragma region RANDOM
 inline void SetRandomSeed() {
 	//시간값을 랜덤 종자값으로 설정
 	srand(static_cast<unsigned int>(time(nullptr)));
@@ -51,7 +60,7 @@ inline float RandomRange(float fMin, float fMax) {
 	float fDiff = fMax - fMin;
 	return (fRandom * fDiff) + fMin;
 }
-END
 #pragma endregion RANDOM
+END
 
 #endif //__ENGINE_FUNCTION_H__

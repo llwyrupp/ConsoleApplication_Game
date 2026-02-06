@@ -67,7 +67,9 @@
       <Command>xcopy *.h ..\Includes\Engine\ /e /y</Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>xcopy $(OutDir)\Engine.dll ..\Library\Engine\$(Platform)\$(Configuration)\ /e /y</Command>
+      <Command>xcopy $(OutDir)\Engine.dll ..\Library\Engine\$(Platform)\$(Configuration)\ /e /y
+
+xcopy $(OutDir)\Engine.lib ..\Library\Engine\$(Platform)\$(Configuration)\ /e /y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -88,7 +90,9 @@
       <Command>xcopy *.h ..\Includes\Engine\ /e /y</Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>xcopy $(OutDir)\Engine.dll ..\Library\Engine\$(Platform)\$(Configuration)\ /e /y</Command>
+      <Command>xcopy $(OutDir)\Engine.dll ..\Library\Engine\$(Platform)\$(Configuration)\ /e /y
+
+xcopy $(OutDir)\Engine.lib ..\Library\Engine\$(Platform)\$(Configuration)\ /e /y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -99,13 +103,13 @@
     <ClInclude Include="EngineCommon\Engine_Function.h" />
     <ClInclude Include="EngineCommon\Engine_Includes.h" />
     <ClInclude Include="EngineCommon\Engine_Macro.h" />
+    <ClInclude Include="EngineCommon\Engine_Struct.h" />
     <ClInclude Include="EngineCommon\RTTI.h" />
     <ClInclude Include="Graphics\Renderer\Renderer.h" />
     <ClInclude Include="Graphics\ScreenBuffer\ScreenBuffer.h" />
     <ClInclude Include="InputMgr\InputMgr.h" />
     <ClInclude Include="Level\Level.h" />
     <ClInclude Include="Engine\Engine.h" />
-    <ClInclude Include="EngineCommon\Singleton.h" />
     <ClInclude Include="Math\Vector2.h" />
     <ClInclude Include="ScrollMgr\ScrollMgr.h" />
     <ClInclude Include="Util\Util.h" />

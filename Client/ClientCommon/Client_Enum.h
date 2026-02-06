@@ -2,16 +2,11 @@
 #ifndef __CLIENT_ENUM_H__
 #define __CLIENT_ENUM_H__
 
-USING(System)
 #pragma region ENEMY
 enum class E_ENEMY_TYPE {
 	E_ENEMY_NONE = -1,
 	E_ENEMY_VILLAGER = 0,
-	E_ENEMY_TEETHMONSTER = 1,
-	E_ENEMY_WARVETERAN = 2,
-	E_ENEMY_ZOMBIE = 3,
-	E_ENEMY_MERMAID = 4,
-	E_ENEMY_BILLYTHEKID = 5,
+	E_ENEMY_ZOMBIE = 1,
 	E_ENEMY_MAX
 };
 
@@ -77,5 +72,21 @@ enum class E_MENUOBJ_TYPE {
 };
 
 #pragma endregion MENUOBJ
+
+#pragma region LEVELTYPE
+
+enum class E_LEVEL_TYPE {
+	E_LEVELTYPE_NONE = -1,
+	E_LEVELTYPE_MENU = 0,
+	//E_LEVELTYPE_SELCHAR = 2,
+	E_LEVELTYPE_FIELD = 1,
+	E_LEVELTYPE_BATTLE = 2,
+	E_LEVELTYPE_SKILLTREE = 3,
+	E_LEVELTYPE_STAT = 4,
+
+	E_LEVELTYPE_MAX
+};
+
+#pragma endregion LEVELTYPE
 
 #endif//!__CLIENT_ENUM_H__

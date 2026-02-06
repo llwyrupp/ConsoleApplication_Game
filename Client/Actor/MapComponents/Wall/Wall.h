@@ -1,23 +1,22 @@
 #pragma once
-#ifndef __ENEMY_H__
-#define __ENEMY_H__
+#ifndef __WALL_H__
+#define __WALL_H__
 #include "ClientCommon/Client_Includes.h"
 #include "Actor/Actor.h"
 
 USING(System)
-class Enemy : public Actor
+class Wall : public Actor
 {
-	RTTI_DECLARATIONS(Enemy, Actor)
+	RTTI_DECLARATIONS(Wall, Actor)
 public:
-	Enemy();
-	virtual ~Enemy();
+	Wall(const Vector2& vPos);
+	virtual ~Wall();
+private:
+
 public:
 	virtual void BeginPlay() override;
 	virtual void Tick(float _fDeltaTime) override;
 	virtual void Render() override;
-protected:
-	ENEMYINFO m_tInfo = {};
+
 };
-
-
 #endif

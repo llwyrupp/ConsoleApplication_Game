@@ -2,6 +2,7 @@
 #ifndef __ENGINE_ENUM_H__
 #define __ENGINE_ENUM_H__
 
+BEGIN(System)
 enum class ENGINE_DLL Color : unsigned short {
 	eBlack = 0,
 	eBlue = FOREGROUND_BLUE,
@@ -9,5 +10,6 @@ enum class ENGINE_DLL Color : unsigned short {
 	eRed = FOREGROUND_RED,
 	eWhite = eBlue | eGreen | eRed,
 };
+END
 
 #endif//!__ENGINE_ENUM_H__

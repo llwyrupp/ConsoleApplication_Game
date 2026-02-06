@@ -40,9 +40,9 @@ const char* Vector2::ToString()
     //기존 문자열 존재할 경우 제거
     Safe_Delete(m_pString);
 
-    m_pString = new char[MAX_STRLEN];
-    memset(m_pString, 0, sizeof(char) * MAX_STRLEN);
-    sprintf_s(m_pString, MAX_STRLEN, "(%d, %d)", m_iX, m_iY);
+    m_pString = new char[MAX_STRING_LEN];
+    memset(m_pString, 0, sizeof(char) * MAX_STRING_LEN);
+    sprintf_s(m_pString, MAX_STRING_LEN, "(%d, %d)", m_iX, m_iY);
 
     return m_pString;
 }
