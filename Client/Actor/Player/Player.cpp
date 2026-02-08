@@ -4,7 +4,7 @@
 
 USING(System)
 Player::Player(const Vector2& vPos)
-	:super(nullptr, "../Data/Player/Player.txt", vPos, Color::eGreen)
+	:super(nullptr, "../Data/Player/Player.txt", vPos, Color::eGreen), m_fSpeed(10.f), m_fAccX(0.f), m_fAccY(0.f)
 {
 	m_iSortingOrder = 5;
 }
@@ -26,17 +26,34 @@ void Player::Tick(float _fDeltaTime)
 	//Input
 	//Movement
 	Vector2 vNewPos = GetPos();
+	
 	if (InputMgr::Get_Instance().GetKey(VK_LEFT)) {
-		vNewPos.m_iX = GetPos().m_iX - 1;
+		m_fAccX += _fDeltaTime * m_fSpeed;
+		if (m_fAccX > 1.f) {
+			vNewPos.m_iX = GetPos().m_iX - 1;
+			m_fAccX = 0.f;
+		}
 	}
 	if (InputMgr::Get_Instance().GetKey(VK_RIGHT)) {
-		vNewPos.m_iX = GetPos().m_iX + 1;
+		m_fAccX += _fDeltaTime * m_fSpeed;
+		if (m_fAccX > 1.f) {
+			vNewPos.m_iX = GetPos().m_iX + 1;
+			m_fAccX = 0.f;
+		}
 	}
 	if (InputMgr::Get_Instance().GetKey(VK_UP)) {
-		vNewPos.m_iY = GetPos().m_iY - 1;
+		m_fAccY += _fDeltaTime * m_fSpeed;
+		if (m_fAccY > 1.f) {
+			vNewPos.m_iY = GetPos().m_iY - 1;
+			m_fAccY = 0.f;
+		}
 	}
 	if (InputMgr::Get_Instance().GetKey(VK_DOWN)) {
-		vNewPos.m_iY = GetPos().m_iY + 1;
+		m_fAccY += _fDeltaTime * m_fSpeed;
+		if (m_fAccY > 1.f) {
+			vNewPos.m_iY = GetPos().m_iY + 1;
+			m_fAccY = 0.f;
+		}
 	}
 	SetPos(vNewPos);
 }

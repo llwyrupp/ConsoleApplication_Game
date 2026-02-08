@@ -24,8 +24,6 @@ public:
 
 protected:
 	vector<Actor*> m_vecActors;
-
-	//실행중 추가요청된 액터들의 배열
 	vector<Actor*> m_vecAddReqActors;
 };
 

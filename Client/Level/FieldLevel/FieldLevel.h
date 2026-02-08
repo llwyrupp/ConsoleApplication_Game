@@ -21,5 +21,6 @@ public:
 	void Render() override;
 public:
 	void LoadMap(const char* pPath = nullptr);
+	void CheckCollisions();
 };
 #endif

@@ -14,8 +14,8 @@ namespace System {
 
 	public:
 		static CollisionMgr& Get_Instance();
-	public:
-		static void CheckCol_Player_Enemy(list<Actor*>& _Dst, list<Actor*>& _Src);
+		static bool CheckCol_Player_Enemy(list<Actor*>& _Dst, list<Actor*>& _Src);
+		static bool Check_Intersect(const RECT& _rtDst, const RECT& _rtSrc);
 	private:
 		static CollisionMgr* m_pInstance;
 	};

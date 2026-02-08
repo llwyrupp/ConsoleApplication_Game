@@ -11,24 +11,26 @@ Actor::Actor(const char* pImage, const char* pPath, const Vector2& vPos, Color c
 		__debugbreak();
 	}
 
+	m_vecStr_FieldLevel.clear();
+
 	if (pImage) {
-		size_t szLen = strlen(pImage) + 1;
+		/*size_t szLen = strlen(pImage) + 1;
 		m_pImage = new char[szLen];
-		strcpy_s(m_pImage, sizeof(char) * szLen, pImage);
+		strcpy_s(m_pImage, sizeof(char) * szLen, pImage);*/
+		m_strImg = pImage;
 	}
 	else if (pPath) {
+		
 		LoadString_FromFile(pPath);
 	}
 	
-
-	//ppath가 없는 컴포넌트들(wall, ground, etc.)은 사이즈 1x1로 고정.
 	SetActorRect();
 
 }
 
 Actor::~Actor()
 {
-	Safe_Delete_Arr(m_pImage);
+	//Safe_Delete_Arr(m_pImage);
 }
 
 void Actor::BeginPlay()
@@ -43,7 +45,13 @@ void Actor::Tick(float _fDeltaTime)
 
 void Actor::Render()
 {
-	Renderer::Get_Instance().Submit(m_pImage, m_vPosition, m_eColor, m_iSortingOrder);
+	if(m_vecStr_FieldLevel.empty())
+		Renderer::Get_Instance().Submit(m_strImg, m_vPosition, m_eColor, m_iSortingOrder);
+	else {
+		for (int i = 0; i < m_vecStr_FieldLevel.size(); ++i) {
+			Renderer::Get_Instance().Submit(m_vecStr_FieldLevel[i], Vector2(m_vPosition.m_iX, m_vPosition.m_iY), m_eColor, m_iSortingOrder);
+		}
+	}
 }
 
 void Actor::SetActorRect()
@@ -64,19 +72,30 @@ void Actor::SetPos(const Vector2& vNewPos)
 	m_vPosition = vNewPos;
 }
 
-void Actor::LoadString_FromFile(const char* _pPath)
+void Actor::LoadString_FromFile(const char* _pPath)//read actor's representeation in FieldLevel if its size is bigger than 1.
 {
+	ifstream file(_pPath);
+
+	if (file.is_open())
+	{
+		string tempStr = "";
+		while (getline(file, tempStr)) {
+			m_vecStr_FieldLevel.emplace_back(tempStr);
+		}
+	}
+
+	/*
 	FILE* pFile = nullptr;
 	fopen_s(&pFile, _pPath, "rt");
 	if (!pFile) {
 		cerr << "FAILED TO OPEN FILE"<< _pPath;
 		__debugbreak();
 	}
-
+	
 	char cBuffer[MAX_STRING_LEN] = {};
-
+	
 	size_t szLen = fread(cBuffer, sizeof(char), MAX_STRING_LEN, pFile);
-
+	
 	if (szLen == 0) {
 		cerr << "No file at: "<< _pPath;
 		__debugbreak();
@@ -90,6 +109,8 @@ void Actor::LoadString_FromFile(const char* _pPath)
 		memset(m_pImage, 0, sizeof(char) * MAX_STRING_LEN);
 	}
 
+	//TODO: reserve dynamically
+	vecChars.reserve(MAX_STRING_LEN);
 	
 	pToken = strtok_s(cBuffer, "\n", &pContext);//read the first line
 	size_t szTotalLen = 0;
@@ -116,6 +137,7 @@ void Actor::LoadString_FromFile(const char* _pPath)
 	m_pImage[szTempIdx] = '\0';
 
 	fclose(pFile);
+	*/
 }
 
 END

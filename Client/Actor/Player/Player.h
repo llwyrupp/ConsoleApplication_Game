@@ -20,8 +20,9 @@ public:
 
 public:
 private:
-	
-
+	float m_fSpeed = 0.f;
+	float m_fAccX = 0.f;
+	float m_fAccY = 0.f;
 };
 
 #endif

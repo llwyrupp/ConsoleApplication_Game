@@ -13,6 +13,7 @@ public:
 	~Game();
 public:
 	static Game& Get_Instance();
+	const E_LEVEL_TYPE& GetCurLevelType() const { return m_eLevelType; }
 private:
 	//manages all levels
 	vector<Level*>m_vecLevels;

@@ -53,18 +53,18 @@ void Engine::Run()
 	LARGE_INTEGER m_Frequency;//frequency
 	QueryPerformanceFrequency(&m_Frequency);
 
-	int64_t t_curTime = 0;//(STL에서 타입재정의된 것)
+	int64_t t_curTime = 0;//
 	int64_t t_prevTime = 0;
 
-	//HARDWARE TIMER로 시간 구하기
+	//HARDWARE TIMER
 	LARGE_INTEGER m_FrameTime;//time
-	QueryPerformanceCounter(&m_FrameTime);//이 함수가 실행되는 실제 시간, 하드웨어 시간
+	QueryPerformanceCounter(&m_FrameTime);
 
 	t_curTime = m_FrameTime.QuadPart;
 	t_prevTime = t_curTime;
 
 	m_stSetting.fFrameRate = m_stSetting.fFrameRate == 0.f ? 60.f : m_stSetting.fFrameRate;
-	float fOneFrameTime = 1.f / m_stSetting.fFrameRate;//1프레임당 몇 초
+	float fOneFrameTime = 1.f / m_stSetting.fFrameRate;//
 
 	//engine loop
 	while (!m_bIsQuit) {
@@ -86,12 +86,10 @@ void Engine::Run()
 
 			m_pInput->SavePrevInputStates();
 
-			//레벨에 요청된 추가/제거 처리
 			if(m_pMainLevel)
 				m_pMainLevel->Process_AddNDestroyActors();
 		}
 	}
-	//@TODO: 프로그램 종료
 	cout << "Program Quit.\n";
 
 
@@ -162,7 +160,7 @@ void Engine::LoadSetting()
 void Engine::BeginPlay()
 {
 	if (!m_pMainLevel) {
-		cout << "m_pMainLevel is empty\n";
+		cerr << "m_pMainLevel is empty\n";
 		return;
 	}
 	m_pMainLevel->BeginPlay();
@@ -171,7 +169,7 @@ void Engine::BeginPlay()
 void Engine::Tick(float _fDeltaTime)
 {
 	if (!m_pMainLevel) {
-		cout << "m_pMainLevel is empty\n";
+		cerr << "ENGINE: m_pMainLevel is empty\n";
 		return;
 	}
 	m_pMainLevel->Tick(_fDeltaTime);
@@ -180,14 +178,14 @@ void Engine::Tick(float _fDeltaTime)
 void Engine::Render()
 {
 	if (!m_pMainLevel) {
-		cout << "m_pMainLevel is empty\n";
+		cerr << "m_pMainLevel is empty\n";
 		return;
 	}
 	m_pMainLevel->Render();//all actors submit to renderer.
 
 	//then renderer draws the whole thing
 	if (!m_pRenderer) {
-		cout << "m_pRenderer is empty\n";
+		cerr << "m_pRenderer is empty\n";
 		return;
 	 }
 

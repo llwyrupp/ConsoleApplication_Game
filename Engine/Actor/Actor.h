@@ -32,6 +32,8 @@ public:
 	inline bool Get_IsDestroyRequested() const { return m_bIsDestroyRequested; }
 
 	inline int Get_SortingOrder() const { return m_iSortingOrder; }
+
+	inline const RECT& GetRect() const { return m_rtSize; }
 protected:
 	//beginplay에 들어가면 세팅되는 플래그값
 	bool m_bHasBegunPlay = false;
@@ -43,7 +45,11 @@ protected:
 	bool m_bIsDestroyRequested = false;
 
 	//letter to draw(image)
-	char* m_pImage = nullptr;
+	//char* m_pImage = nullptr;
+	string m_strImg = "";
+
+	//bigger than 1x1 (in fieldlevel)
+	vector<string> m_vecStr_FieldLevel;
 
 	//is using custom image? (1x1 or NxN?)
 	//bool m_bIsUsingCustomImg = false;

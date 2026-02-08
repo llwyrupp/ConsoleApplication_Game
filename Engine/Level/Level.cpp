@@ -1,5 +1,6 @@
 #include "Level/Level.h"
 #include "Actor/Actor.h"
+#include "CollisionManager/CollisionMgr.h"
 
 BEGIN(System)
 
@@ -37,7 +38,6 @@ void Level::Tick(float _fDeltaTime)
 
 void Level::Render()
 {
-	//액터가 담긴 배열 순회하며 Render함수 호출
 	for (auto& actor : m_vecActors) {
 		if (actor->IsActive())
 		{
@@ -60,10 +60,6 @@ void Level::AddNewActor(Actor* pNewActor)
 void Level::Process_AddNDestroyActors()
 {
 	//delete any delete-requested actors.
-
-		//vector<Actor*>::iterator iter = m_vecActors.begin();
-
-
 	for (int i = 0; i < static_cast<int>(m_vecActors.size());)
 	{
 		if (m_vecActors[i]->Get_IsDestroyRequested()) {

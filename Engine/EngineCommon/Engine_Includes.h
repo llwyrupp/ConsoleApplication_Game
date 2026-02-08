@@ -11,6 +11,7 @@
 #include <algorithm>
 #include <iostream>
 #include <string>
+#include <fstream>
 #include <Windows.h>
 #include <time.h>
 

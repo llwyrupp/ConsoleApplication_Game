@@ -4,12 +4,13 @@
 
 BEGIN(System)
 
-#pragma warning(disable: 4251)	// 미봉책(방법 없음).
-#pragma warning(disable: 4172)	// 위험성 인지한 상태로 사용.
+#pragma warning(disable: 4251)	//
+#pragma warning(disable: 4172)	//
 
+#define MAX_ASCIIART_LEN 4096
 #define MAX_BUFFER_LEN 2048
-#define MAX_HEADER_LEN 24
 #define MAX_STRING_LEN 128
+#define MAX_HEADER_LEN 24
 #define MAX_WIDTH_LEN 5
 
 #ifdef _DEBUG

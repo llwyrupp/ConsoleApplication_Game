@@ -8,12 +8,12 @@ Renderer* Renderer::m_pInstance = nullptr;
 #pragma region FRAME
 Renderer::tagFrame::tagFrame(int iBufCnt)
 {
-	//¹è¿­ »ý¼º ¹× ÃÊ±âÈ­(RAII)
-	charInfoArr = new CHAR_INFO[iBufCnt];//¸Þ¸ð¸® µ¿ÀûÇÒ´ç
+	//Â¹Ã¨Â¿Â­ Â»Ã½Â¼Âº Â¹Ã— ÃƒÃŠÂ±Ã¢ÃˆÂ­(RAII)
+	charInfoArr = new CHAR_INFO[iBufCnt];//Â¸ÃžÂ¸Ã°Â¸Â® ÂµÂ¿Ã€Ã»Ã‡Ã’Â´Ã§
 	memset(charInfoArr, 0, sizeof(CHAR_INFO) * iBufCnt);
 
 
-	pSortingOrderArr = new int[iBufCnt];//¸Þ¸ð¸® µ¿ÀûÇÒ´ç
+	pSortingOrderArr = new int[iBufCnt];//Â¸ÃžÂ¸Ã°Â¸Â® ÂµÂ¿Ã€Ã»Ã‡Ã’Â´Ã§
 	memset(pSortingOrderArr, 0, sizeof(int) * iBufCnt);
 }
 
@@ -25,7 +25,7 @@ Renderer::tagFrame::~tagFrame()
 
 void Renderer::tagFrame::Clear(const Vector2& vScreenSize)
 {
-	//2Â÷¿ø ¹è¿­·Î ´Ù·ç´Â 1Â÷¿ø ¹è¿­À» µ¹¸é¼­ ¸ðµÎ blank(' ')·Î ¼¼ÆÃ
+	//2Ã‚Ã·Â¿Ã¸ Â¹Ã¨Â¿Â­Â·ÃŽ Â´Ã™Â·Ã§Â´Ã‚ 1Ã‚Ã·Â¿Ã¸ Â¹Ã¨Â¿Â­Ã€Â» ÂµÂ¹Â¸Ã©Â¼Â­ Â¸Ã°ÂµÃŽ blank(' ')Â·ÃŽ Â¼Â¼Ã†Ãƒ
 	const int iWidth = vScreenSize.m_iX;
 	const int iHeight = vScreenSize.m_iY;
 
@@ -90,53 +90,68 @@ void Renderer::Render()
 
 	for (const RENDERCOM& com : m_vecRenderQueue) {
 		//if no text, skip
-		if (!com.pText)
+		if (com.strText.empty())
 			continue;
 
-		//¼¼·Î±âÁØ È­¸é ¹þ¾î³µ´ÂÁö È®ÀÎ
+		//if the y coordinate is out of screen, skip.
 		if (com.vPosition.m_iY < 0 || com.vPosition.m_iY >= m_vScreenSize.m_iY)
 			continue;
 
-		const int iLen = static_cast<int>(strlen(com.pText));
+		//check validity of text
+		const int iLen = static_cast<int>(com.strText.length());
 		if (iLen <= 0)
 			continue;
 
-		//°¡·Î±âÁØ È­¸é ¹þ¾î³µ´ÂÁö È®ÀÎ.
-		//À§Ä¡´Â ¹®ÀÚ¿­ÀÇ ¸Ç ¿ÞÂÊ ±ÛÀÚ¸¦ ±âÁØÀ¸·Î ÇÑ´Ù
+
+		//print X
 		const int iStartX = com.vPosition.m_iX;
-		//¹®ÀÚ¿­ÀÇ ¸Ç ¸¶Áö¸· ¹®ÀÚÀÇ ÀÎµ¦½º
 		const int iEndX = com.vPosition.m_iX + iLen - 1;
 		if (iEndX < 0 || iStartX >= m_vScreenSize.m_iX)
 			continue;
 
-		//º¸¿©Áú ¹®ÀÚµéÀ» Ãß·Á³½´Ù
-		const int iVisibleStart = iStartX < 0 ? 0 : iStartX;//¹®ÀÚ¿­ÀÇ ½ÃÀÛ ÀÎµ¦½º°¡ È­¸é¿¡¼­ ¹þ¾î³­ °æ¿ì 0,
-		//¾Æ´Ò °æ¿ì ±âÁ¸°ª À¯Áö
-		
-		//¹®ÀÚ¿­ÀÇ ³¡ ÀÎµ¦½º°¡ È­¸éÀ» ¹þ¾î³­ °æ¿ì È­¸é ³Êºñ¸¸Å­ °ª-1
-		//¾Æ´Ñ °æ¿ì ±âÁ¸ °ª ±×´ë·Î »ç¿ë
-		const int iVisibleEnd = iEndX >= m_vScreenSize.m_iX ? m_vScreenSize.m_iX - 1 : iEndX;
-		
+		const int iVisibleStartX = iStartX < 0 ? 0 : iStartX;
+		const int iVisibleEndX = iEndX >= m_vScreenSize.m_iX ? m_vScreenSize.m_iX - 1 : iEndX;
 
-		//¹®ÀÚ¿­ ¼³Á¤ (È­¸é¿¡ ±×·ÁÁú ºÎºÐ¸¸)
-		for (int i = iVisibleStart; i <= iVisibleEnd; ++i) {
-			//¹®ÀÚ¿­ ¾ÈÀÇ ¹®ÀÚ ÀÎµ¦½º
+		//render the visible parts only.
+		for (int i = iVisibleStartX; i <= iVisibleEndX; ++i) {
+			//srcidx: char index inside the string.
 			const int iSrcIdx = i - iStartX;
 
-			//ÇÁ·¹ÀÓ(2Â÷¿ø ¹®ÀÚ¹è¿­) ÀÎµ¦½º
-			const int iFrameIdx = (com.vPosition.m_iY * m_vScreenSize.m_iX) + com.vPosition.m_iX;
+			//2d array index.
+			const int iFrameIdx = (com.vPosition.m_iY * m_vScreenSize.m_iX) + i;
 
-			//±×¸®±â ¿ì¼±¼øÀ§ ºñ±³ÇÏ±â
+			//compare sort priority
 			if (m_pFrame->pSortingOrderArr[iFrameIdx] > com.iSortingOrder)
 				continue;
 
-			//µ¥ÀÌÅÍ ±â·ÏÇÏ±â
-			m_pFrame->charInfoArr[iFrameIdx].Char.AsciiChar = com.pText[iSrcIdx];
+			m_pFrame->charInfoArr[iFrameIdx].Char.AsciiChar = com.strText[iSrcIdx];
 			m_pFrame->charInfoArr[iFrameIdx].Attributes = (WORD)com.eColor;
 
-			//¿ì¼±¼øÀ§ °»½Å
 			m_pFrame->pSortingOrderArr[iFrameIdx] = com.iSortingOrder;
 		}
+
+		////print Y
+		//const int iStartY = com.vPosition.m_iY;
+		//const int iEndY = com.vPosition.m_iY + iLen - 1;
+		//if (iEndY < 0 || iStartY >= m_vScreenSize.m_iX)
+		//	continue;
+
+		//const int iVisibleStartY = iStartY < 0 ? 0 : iStartY;
+		//const int iVisibleEndY = iEndY >= m_vScreenSize.m_iY ? m_vScreenSize.m_iY - 1 : iEndY;
+
+		//for (int i = iVisibleStartY; i <= iVisibleEndY; ++i) {
+		//	const int iSrcIdx = i - iStartY;
+
+		//	const int iFrameIdx = (com.vPosition.m_iY * m_vScreenSize.m_iY) + i;
+
+		//	if (m_pFrame->pSortingOrderArr[iFrameIdx] > com.iSortingOrder)
+		//		continue;
+
+		//	m_pFrame->charInfoArr[iFrameIdx].Char.AsciiChar = com.strText[iSrcIdx];
+		//	m_pFrame->charInfoArr[iFrameIdx].Attributes = (WORD)com.eColor;
+
+		//	m_pFrame->pSortingOrderArr[iFrameIdx] = com.iSortingOrder;
+		//}
 	}
 
 	//draw the letters.
@@ -149,11 +164,11 @@ void Renderer::Render()
 	m_vecRenderQueue.clear();
 }
 
-void Renderer::Submit(const char* pText, const Vector2& vPos, Color eColor, int iSortOrder)
+void Renderer::Submit(string pText, const Vector2& vPos, Color eColor, int iSortOrder)
 {
 	//create a render data and push it into renderqueue.
 	RENDERCOM renderCom = {};
-	renderCom.pText = pText;
+	renderCom.strText = pText;
 	renderCom.vPosition = vPos;
 	renderCom.eColor = eColor;
 	renderCom.iSortingOrder = iSortOrder;
