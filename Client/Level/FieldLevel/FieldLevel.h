@@ -13,12 +13,12 @@ public:
 	FieldLevel();
 	virtual ~FieldLevel();
 
-	bool CanMove(const Vector2& playerPosition, const Vector2& nextPosition) override;
+	virtual bool CanMove(const Vector2& playerPosition, const Vector2& nextPosition) override;
 
 public:
-	void BeginPlay() override;
-	void Tick(float _fDeltaTime) override;
-	void Render() override;
+	virtual void BeginPlay() override;
+	virtual void Tick(float _fDeltaTime) override;
+	virtual void Render() override;
 public:
 	void LoadMap(const char* pPath = nullptr);
 	void CheckCollisions();

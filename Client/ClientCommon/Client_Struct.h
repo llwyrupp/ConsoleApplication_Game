@@ -3,6 +3,10 @@
 #define __CLIENT_STRUCT_H__
 
 typedef struct tagPlayerInfo {
+	tagPlayerInfo() {}
+	tagPlayerInfo(int _iHP, int _iMP, int _iAtk, int _iDef, int _iCritRate, int _iCritDmg) 
+		:iHP(_iHP), iMP(_iMP), iAttack(_iAtk), iDefense(_iDef), iCritRate(_iCritRate), iCritDmg(_iCritDmg)
+	{}
 	int iHP = 0;
 	int iMP = 0;
 	int iAttack = 0;

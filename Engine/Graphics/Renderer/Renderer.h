@@ -1,4 +1,6 @@
 #pragma once
+#ifndef __RENDERER_H__
+#define __RENDERER_H__
 #include "EngineCommon/Engine_Includes.h"
 
 BEGIN(System)
@@ -75,3 +77,5 @@ private:
 };
 
 END
+
+#endif//!__RENDERER_H__

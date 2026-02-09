@@ -41,3 +41,8 @@ Game& Game::Get_Instance()
 	return *m_pInstance;
 }
 
+void Game::AddNewLevel(Level* pNewLevel)
+{
+	m_vecLevels.emplace_back(pNewLevel);
+}
+

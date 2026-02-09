@@ -1,5 +1,5 @@
 #include "CollisionMgr.h"
-#include "../Engine/Actor/Actor.h"
+#include "Actor/Actor.h"
 
 BEGIN(System)
 
@@ -46,23 +46,19 @@ bool CollisionMgr::Check_Intersect(const RECT& _rtDst, const RECT& _rtSrc)
 
 	//check if two intersects.
 
-	//RIGHT_BOTTOM
-	if (_rtDst.right >= _rtSrc.left && _rtDst.bottom >= _rtSrc.top)
-		return true;
+	if (iMaxX_Dst <= iMinX_Src)
+		return false;
 
-	//LEFT_BOTTOM
-	if (_rtDst.left <= _rtSrc.right && _rtDst.bottom >= _rtSrc.top)
-		return true;
+	if (iMaxX_Src <= iMinX_Dst)
+		return false;
 
-	//LEFT_TOP
-	if (_rtDst.left <= _rtSrc.right && _rtDst.top <= _rtSrc.bottom)
-		return true;
+	if (iMaxY_Dst <= iMinY_Src)
+		return false;
 
-	//RIGHT_TOP
-	if (_rtDst.right >= _rtSrc.left && _rtDst.top <= _rtSrc.bottom)
-		return true;
+	if (iMaxY_Src <= iMinY_Dst)
+		return false;
 
-	return false;
+	return true;
 }
 
 END

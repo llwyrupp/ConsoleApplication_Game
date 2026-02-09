@@ -40,27 +40,6 @@ void Safe_Delete_Arr(T*& ptr) {
 END
 
 
-BEGIN(Util)
-#pragma region RANDOM
-inline void SetRandomSeed() {
-	//시간값을 랜덤 종자값으로 설정
-	srand(static_cast<unsigned int>(time(nullptr)));
-}
 
-//정수 난수 함수
-inline int RandomInt(int iMin, int iMax) {
-	int iDiff = iMax - iMin + 1;
-	// div by 32768
-	return ((iDiff * rand()) / (RAND_MAX + 1)) + iMin;
-}
-
-inline float RandomRange(float fMin, float fMax) {
-	//0~1 사이 랜덤 float값
-	float fRandom = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
-	float fDiff = fMax - fMin;
-	return (fRandom * fDiff) + fMin;
-}
-#pragma endregion RANDOM
-END
 
 #endif //__ENGINE_FUNCTION_H__

@@ -1,4 +1,6 @@
 #pragma once
+#ifndef __LEVEL_H__
+#define __LEVEL_H__
 #include "EngineCommon/Engine_Includes.h"
 #include "EngineCommon/RTTI.h"
 
@@ -22,9 +24,13 @@ public:
 	void AddNewActor(Actor* pNewActor);
 	void Process_AddNDestroyActors();
 
+	inline const vector<Actor*>& GetActors() const { return m_vecActors; }
+	inline Actor* GetPlayer() const { return m_pPlayer; }
 protected:
 	vector<Actor*> m_vecActors;
 	vector<Actor*> m_vecAddReqActors;
+	Actor* m_pPlayer = nullptr;
 };
 
 END
+#endif

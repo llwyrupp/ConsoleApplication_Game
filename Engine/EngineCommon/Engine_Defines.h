@@ -2,8 +2,6 @@
 #ifndef __ENGINE_DEFINES_H__
 #define __ENGINE_DEFINES_H__
 
-BEGIN(System)
-
 #pragma warning(disable: 4251)	//
 #pragma warning(disable: 4172)	//
 
@@ -18,6 +16,5 @@ BEGIN(System)
 #include <stdlib.h>
 #include<crtdbg.h>
 #endif //_DEBUG
-END
 
 #endif//!__ENGINE_DEFINES_H__

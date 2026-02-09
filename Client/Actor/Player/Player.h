@@ -19,10 +19,14 @@ public:
 	virtual void Render() override;
 
 public:
+	void LoadPlayerStat(const char* _pPath);
+	inline const PLAYERINFO& GetInfo() const { return m_tInfo; }
 private:
 	float m_fSpeed = 0.f;
 	float m_fAccX = 0.f;
 	float m_fAccY = 0.f;
+private:
+	PLAYERINFO m_tInfo = {};
 };
 
 #endif

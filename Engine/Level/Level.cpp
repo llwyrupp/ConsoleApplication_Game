@@ -1,6 +1,6 @@
 #include "Level/Level.h"
 #include "Actor/Actor.h"
-#include "CollisionManager/CollisionMgr.h"
+#include "CollisionMgr/CollisionMgr.h"
 
 BEGIN(System)
 

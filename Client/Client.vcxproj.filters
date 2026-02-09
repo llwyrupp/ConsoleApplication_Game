@@ -57,6 +57,12 @@
     <ClInclude Include="Actor\MapComponents\Ground\Ground.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Level\BattleLevel\BattleLevel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BattlePlayer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Actor\Enemy\Enemy.cpp">
@@ -87,6 +93,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Actor\MapComponents\Ground\Ground.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Level\BattleLevel\BattleLevel.CPP">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BattlePlayer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

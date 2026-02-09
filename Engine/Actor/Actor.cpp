@@ -24,7 +24,7 @@ Actor::Actor(const char* pImage, const char* pPath, const Vector2& vPos, Color c
 		LoadString_FromFile(pPath);
 	}
 	
-	SetActorRect();
+	UpdateRect();
 
 }
 
@@ -41,6 +41,7 @@ void Actor::BeginPlay()
 void Actor::Tick(float _fDeltaTime)
 {
 	//TODO: Common Actor Behaviour to be added if necessary.
+	UpdateRect();
 }
 
 void Actor::Render()
@@ -54,7 +55,7 @@ void Actor::Render()
 	}
 }
 
-void Actor::SetActorRect()
+void Actor::UpdateRect()
 {
 	m_rtSize.left = static_cast<long>(m_vPosition.m_iX);
 	m_rtSize.top = static_cast<long>(m_vPosition.m_iY);
@@ -79,9 +80,12 @@ void Actor::LoadString_FromFile(const char* _pPath)//read actor's representeatio
 	if (file.is_open())
 	{
 		string tempStr = "";
+		
 		while (getline(file, tempStr)) {
 			m_vecStr_FieldLevel.emplace_back(tempStr);
 		}
+		m_iStringWidth = static_cast<int>(m_vecStr_FieldLevel[0].length());
+		m_iStringHeight = static_cast<int>(m_vecStr_FieldLevel.size());
 	}
 
 	/*

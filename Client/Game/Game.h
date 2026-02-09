@@ -14,6 +14,8 @@ public:
 public:
 	static Game& Get_Instance();
 	const E_LEVEL_TYPE& GetCurLevelType() const { return m_eLevelType; }
+	const void SetCurLevelType(const E_LEVEL_TYPE& _lType) { m_eLevelType = _lType; }
+	void AddNewLevel(Level* pNewLevel);
 private:
 	//manages all levels
 	vector<Level*>m_vecLevels;

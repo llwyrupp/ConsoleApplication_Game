@@ -2,14 +2,17 @@
 #include "Actor/MapComponents/Ground/Ground.h"
 #include "Actor/MapComponents/Wall/Wall.h"
 #include "Actor/Player/Player.h"
-#include "../Client/Actor/Enemy/Enemy.h"
-#include "../Engine/CollisionManager/CollisionMgr.h"
+#include "Actor/Enemy/Enemy.h"
+#include "CollisionMgr/CollisionMgr.h"
+#include "Game/Game.h"
+#include "Level/BattleLevel/BattleLevel.h"
 
 USING(System)
+
 FieldLevel::FieldLevel()
 {
 #ifdef _DEBUG
-	LoadMap("../Data/Map/Field1.txt");//debug mode
+	LoadMap("../Data/Map/Field2.txt");//debug mode
 
 	//Array Decay(?): When you pass a char[] into a function, C++ automatically converts it into a char*.
 	//AddNewActor(new Player(Vector2::Zero));
@@ -25,10 +28,38 @@ FieldLevel::FieldLevel()
 
 FieldLevel::~FieldLevel()
 {
+
 }
 
 bool FieldLevel::CanMove(const Vector2& playerPosition, const Vector2& nextPosition)
 {
+	//loop through all actors.
+
+	//vector<Actor*> vecEnemies;
+	////store all Enemy-type actors inside a vector.
+	//for (auto& const actor : m_vecActors) {
+	//	if (actor->IsTypeOf<Enemy>()) {
+	//		vecEnemies.emplace_back(actor);
+	//	}
+	//}
+
+	////loop thru all enemies, see if an enemy stand in the way.
+	//for (auto& const enemy : vecEnemies) {
+	//	if (enemy->GetPos() == nextPosition) {
+	//		return false;
+	//	}
+	//}
+
+	//if there is no enemy, see if the next position is either a wall or just a ground.
+	for (auto& const actor : m_vecActors) {
+		if (actor->IsTypeOf<Wall>() && actor->GetPos() == nextPosition) {
+			return false;//cannot move through walls.
+		}
+		if (actor->IsTypeOf<Ground>() && actor->GetPos() == nextPosition) {
+			return true;//can move onto grounds.
+		}
+	}
+
 	return false;
 }
 
@@ -40,6 +71,8 @@ void FieldLevel::BeginPlay()
 void FieldLevel::Tick(float _fDeltaTime)
 {
 	super::Tick(_fDeltaTime);
+
+	CheckCollisions();
 }
 
 void FieldLevel::Render()
@@ -127,8 +160,13 @@ void FieldLevel::CheckCollisions()
 		}
 	}
 
-
-
-	CollisionMgr::Get_Instance().CheckCol_Player_Enemy(m_listDstActors, m_listSrcActors);
+	if (System::CollisionMgr::Get_Instance().CheckCol_Player_Enemy(m_listDstActors, m_listSrcActors))
+	{
+		//start battlesystem
+		BattleLevel* pLevel = new BattleLevel("../Data/Battle/BattleZombie.txt");
+		Game::Get_Instance().AddNewLevel(pLevel);
+		Game::Get_Instance().SetNewLevel(pLevel);
+		Game::Get_Instance().SetCurLevelType(E_LEVEL_TYPE::E_LEVELTYPE_BATTLE);
+	}
 }
 

@@ -39,9 +39,6 @@
     <ClInclude Include="Graphics\ScreenBuffer\ScreenBuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CollisionManager\CollisionMgr.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Actor\Actor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -66,6 +63,12 @@
     <ClInclude Include="EngineCommon\Engine_Struct.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CollisionMgr\CollisionMgr.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectMgr.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Engine.cpp">
@@ -80,9 +83,6 @@
     <ClCompile Include="Graphics\ScreenBuffer\ScreenBuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CollisionManager\CollisionMgr.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Actor\Actor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -93,6 +93,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Level\Level.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionMgr\CollisionMgr.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectMgr.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -97,7 +97,7 @@ xcopy $(OutDir)\Engine.lib ..\Library\Engine\$(Platform)\$(Configuration)\ /e /y
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Actor\Actor.h" />
-    <ClInclude Include="CollisionManager\CollisionMgr.h" />
+    <ClInclude Include="CollisionMgr\CollisionMgr.h" />
     <ClInclude Include="EngineCommon\Engine_Defines.h" />
     <ClInclude Include="EngineCommon\Engine_Enum.h" />
     <ClInclude Include="EngineCommon\Engine_Function.h" />
@@ -111,18 +111,20 @@ xcopy $(OutDir)\Engine.lib ..\Library\Engine\$(Platform)\$(Configuration)\ /e /y
     <ClInclude Include="Level\Level.h" />
     <ClInclude Include="Engine\Engine.h" />
     <ClInclude Include="Math\Vector2.h" />
+    <ClInclude Include="ObjectMgr.h" />
     <ClInclude Include="ScrollMgr\ScrollMgr.h" />
     <ClInclude Include="Util\Util.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Actor\Actor.cpp" />
-    <ClCompile Include="CollisionManager\CollisionMgr.cpp" />
+    <ClCompile Include="CollisionMgr\CollisionMgr.cpp" />
     <ClCompile Include="Graphics\Renderer\Renderer.cpp" />
     <ClCompile Include="Graphics\ScreenBuffer\ScreenBuffer.cpp" />
     <ClCompile Include="InputMgr\InputMgr.cpp" />
     <ClCompile Include="Level\Level.cpp" />
     <ClCompile Include="Engine\Engine.cpp" />
     <ClCompile Include="Math\Vector2.cpp" />
+    <ClCompile Include="ObjectMgr.cpp" />
     <ClCompile Include="ScrollMgr\ScrollMgr.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

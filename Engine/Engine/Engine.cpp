@@ -3,8 +3,9 @@
 #include "Level/Level.h"
 #include "InputMgr/InputMgr.h"
 #include "Graphics/Renderer/Renderer.h"
-#include "CollisionManager/CollisionMgr.h"
+#include "CollisionMgr/CollisionMgr.h"
 #include "Util/Util.h"
+#include "ObjectMgr.h"
 
 USING(Util)
 
@@ -22,6 +23,9 @@ Engine::Engine()
 
 	//collision manager
 	m_pCollisionMgr = new CollisionMgr();
+
+	//object manager
+	//m_pObjectMgr = new ObjectMgr();
 
 	//Load setting from setting.txt file
 	LoadSetting();
@@ -44,8 +48,10 @@ Engine::Engine()
 Engine::~Engine()
 {
 	Safe_Delete(m_pMainLevel);
-	Safe_Delete(m_pInput);
 	Safe_Delete(m_pRenderer);
+	//Safe_Delete(m_pObjectMgr);
+	Safe_Delete(m_pCollisionMgr);
+	Safe_Delete(m_pInput);
 }
 
 void Engine::Run()

@@ -5,6 +5,7 @@ BEGIN(System)
 	class InputMgr;
 	class Renderer;
 	class CollisionMgr;
+	//class ObjectMgr;
 	class ENGINE_DLL Engine
 	{
 		//grant the base class asccess to private parts
@@ -32,6 +33,8 @@ BEGIN(System)
 		inline int GetWidth() const { return m_stSetting.iWidth; }
 		inline int GetHeight() const { return m_stSetting.iHeight; }
 	public:
+		Level* Get_MainLevel() const { return m_pMainLevel; }
+	public:
 		static Engine& Get_Instance();
 	protected:
 		void BeginPlay();
@@ -45,6 +48,7 @@ BEGIN(System)
 		InputMgr* m_pInput = nullptr;
 		Renderer* m_pRenderer = nullptr;
 		CollisionMgr* m_pCollisionMgr = nullptr;
+		//ObjectMgr* m_pObjectMgr = nullptr;
 		class Level* m_pMainLevel = nullptr;
 		static Engine* m_pInstance;
 	};

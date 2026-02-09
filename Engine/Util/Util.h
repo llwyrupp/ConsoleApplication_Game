@@ -34,6 +34,25 @@ inline void TurnOnCursor()
 	info.bVisible = true;
 	SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE),&info);
 }
+
+#pragma region RANDOM
+inline void SetRandomSeed() {
+	srand(static_cast<unsigned int>(time(nullptr)));
+}
+
+inline int RandomInt(int iMin, int iMax) {
+	int iDiff = iMax - iMin + 1;
+	// div by 32768
+	return ((iDiff * rand()) / (RAND_MAX + 1)) + iMin;
+}
+
+inline float RandomRange(float fMin, float fMax) {
+	float fRandom = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
+	float fDiff = fMax - fMin;
+	return (fRandom * fDiff) + fMin;
+}
+#pragma endregion RANDOM
+
 END
 
 #endif//!__UTIL_H__

@@ -1,7 +1,7 @@
 #pragma once
 #include "EngineCommon/Engine_Includes.h"
 
-namespace System {
+BEGIN(System)
 	class Actor;
 	//manage collisions between two actors(base class of all objects)
 	class ENGINE_DLL CollisionMgr
@@ -14,10 +14,9 @@ namespace System {
 
 	public:
 		static CollisionMgr& Get_Instance();
-		static bool CheckCol_Player_Enemy(list<Actor*>& _Dst, list<Actor*>& _Src);
-		static bool Check_Intersect(const RECT& _rtDst, const RECT& _rtSrc);
+		bool CheckCol_Player_Enemy(list<Actor*>& _Dst, list<Actor*>& _Src);
+		bool Check_Intersect(const RECT& _rtDst, const RECT& _rtSrc);
 	private:
 		static CollisionMgr* m_pInstance;
 	};
-}
-
+END

@@ -1,4 +1,6 @@
 #pragma once
+#ifndef __INPUTMGR_H__
+#define __INPUTMGR_H__
 #include "EngineCommon/Engine_Includes.h"
 
 BEGIN(System)
@@ -38,3 +40,4 @@ BEGIN(System)
 		static InputMgr* m_pInstance;
 	};
 END
+#endif

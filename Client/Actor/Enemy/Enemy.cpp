@@ -52,29 +52,15 @@ void Enemy::Render()
 
 void Enemy::SetBattleImage(const char* _pPath)
 {
-	//FILE* pFile = nullptr;
 	ifstream file(_pPath);
-	//if (!fopen_s(&pFile, _pPath, "rt")) {
 	if (file.is_open()) {
 
-		/*if (!m_pBattleImage) {
-			m_pBattleImage = new char[MAX_ASCIIART_LEN];
-			memset(m_pBattleImage, 0, sizeof(char) * MAX_ASCIIART_LEN);
-		}*/
-
-		//char pBuffer[100001] = {};
 		string tempStr = "";
-		//size_t szLen = fread(pBuffer, sizeof(char), 100001, pFile);
-
-		//while (fgets(pBuffer, sizeof(char)* szLen, pFile))
 		while (std::getline(file, tempStr))
 		{
-			//printf("%s", pBuffer);
 			//TODO: consider .reserve.
 			m_vecBattleImg.emplace_back(tempStr);
 		}
-
-		/*fclose(pFile);*/
 		file.close();
 	}
 	else {

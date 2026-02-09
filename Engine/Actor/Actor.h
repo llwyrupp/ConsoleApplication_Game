@@ -20,7 +20,7 @@ public:
 	virtual void Render() = 0;
 public:
 	void LoadString_FromFile(const char* _pPath);
-	void SetActorRect();
+	void UpdateRect();
 	void SetPos(const Vector2& vNewPos);
 	inline Vector2 GetPos() const { return m_vPosition; }
 

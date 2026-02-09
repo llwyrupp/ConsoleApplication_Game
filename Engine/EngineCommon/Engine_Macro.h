@@ -2,8 +2,6 @@
 #ifndef __ENGINE_MACRO_H__
 #define __ENGINE_MACRO_H__
 
-namespace System {
-
 #pragma warning(disable: 4251)	// 미봉책(방법 없음).
 #pragma warning(disable: 4172)	// 위험성 인지한 상태로 사용.
 
@@ -23,6 +21,4 @@ namespace System {
 #define ENGINE_DLL DLLIMPORT
 #endif
 
-
-}
 #endif//__ENGINE_MACRO_H__
