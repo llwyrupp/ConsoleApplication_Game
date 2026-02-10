@@ -2,10 +2,11 @@
 #ifndef __UTIL_H__
 #define __UTIL_H__
 
-
+#include "EngineCommon/Engine_Defines.h"
+#include "EngineCommon/Engine_Enum.h"
 #include "Math/Vector2.h"
 
-USING(System)
+using namespace System;
 
 BEGIN(Util)
 // 콘솔 커서 위치 이동(설정)하는 함수.

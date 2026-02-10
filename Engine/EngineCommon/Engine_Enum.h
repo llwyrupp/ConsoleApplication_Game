@@ -1,6 +1,7 @@
 #pragma once
 #ifndef __ENGINE_ENUM_H__
 #define __ENGINE_ENUM_H__
+#include "EngineCommon/Engine_Defines.h"
 
 BEGIN(System)
 enum class ENGINE_DLL Color : unsigned short {

@@ -8,7 +8,7 @@
 #define BEGIN(NAMESPACE) namespace NAMESPACE {
 #define END }
 
-#define USING(NAMESPACE) using namespace NAMESPACE;
+//#define USING(NAMESPACE) using namespace NAMESPACE;
 
 
 #define DLLEXPORT __declspec(dllexport)

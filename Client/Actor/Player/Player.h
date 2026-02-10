@@ -1,12 +1,12 @@
 #pragma once
 #ifndef __PLAYER_H__
 #define __PLAYER_H__
-#include "ClientCommon/Client_Includes.h"
+#include "ClientCommon/Client_Struct.h"
 #include "Actor/Actor.h"
 
-USING(System)
+using namespace System;
 
-class Player : public Actor
+class Player : public System::Actor
 {
 	RTTI_DECLARATIONS(Player, Actor)
 public:
@@ -17,14 +17,14 @@ public:
 	virtual void BeginPlay() override;
 	virtual void Tick(float _fDeltaTime) override;
 	virtual void Render() override;
-
-public:
-	void LoadPlayerStat(const char* _pPath);
-	inline const PLAYERINFO& GetInfo() const { return m_tInfo; }
 private:
 	float m_fSpeed = 0.f;
 	float m_fAccX = 0.f;
 	float m_fAccY = 0.f;
+public:
+	inline const PLAYERINFO& GetInfo() const { return m_tInfo; }
+	inline void SetPlayerHP(int _iHP) { m_tInfo.iHP = _iHP; }
+	void LoadPlayerStat(const char* _pPath);
 private:
 	PLAYERINFO m_tInfo = {};
 };

@@ -1,13 +1,12 @@
-#include "ClientCommon/Client_Includes.h"
-#include "../Engine/Graphics/Renderer/Renderer.h"
+#include "Graphics/Renderer/Renderer.h"
 #include "Game/Game.h"
 #include "Enemy.h"
 
 Enemy::Enemy(const char* pImage, const char* pPath, const Vector2& vPos, Color color,
-	const char* _pBattleImagePath, const char* _pName, int _iHP, int _iAtk, int _iDef)
-	:super(pImage, pPath, vPos, color)
+	const char* _pBattleImagePath, const char* _pName, int _iHP, int _iAtk, int _iDef, E_ENEMY_TYPE _eType)
+	:super(pImage, pPath, vPos, color), m_eEnemyType(_eType)
 {
-	m_iSortingOrder = 4;
+	m_iSortingOrder = 11;
 
 	/*m_pBattleImage = new char[MAX_ASCIIART_LEN];
 	memset(m_pBattleImage, 0, sizeof(char) * MAX_ASCIIART_LEN);*/
@@ -73,7 +72,7 @@ void Enemy::PrintBattleImage() const
 {
 	int iY = 0;
 	for (auto& line : m_vecBattleImg) {
-		Renderer::Get_Instance().Submit(line, Vector2(GetPos().m_iX, GetPos().m_iY + iY), m_eColor, m_iSortingOrder);
+		Renderer::Get_Instance().Submit(line, Vector2(30, 30), m_eColor, m_iSortingOrder);
 		++iY;
 	}
 }

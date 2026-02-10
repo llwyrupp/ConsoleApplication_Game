@@ -3,6 +3,9 @@
 #ifndef __ENGINE_FUNCTION_H__
 #define __ENGINE_FUNCTION_H__
 
+#include "EngineCommon/Engine_Defines.h"
+#include "EngineCommon/Engine_Macro.h"
+
 BEGIN(System)
 #pragma region GENERAL
 //check if the pointer is a nullptr. if it is, return.

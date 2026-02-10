@@ -2,11 +2,10 @@
 #ifndef __GEAR_H__
 #define __GEAR_H__
 
-#include "ClientCommon/Client_Includes.h"
 #include "Actor/Actor.h"
 
-USING(System)
-class Gear : public Actor
+using namespace System;
+class Gear : public System::Actor
 {
 	RTTI_DECLARATIONS(Gear, Actor)
 public:

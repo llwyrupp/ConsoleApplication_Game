@@ -36,9 +36,6 @@
     <ClInclude Include="Game\Game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ClientCommon\Client_Includes.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ClientCommon\Client_Struct.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -60,7 +57,10 @@
     <ClInclude Include="Level\BattleLevel\BattleLevel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BattlePlayer.h">
+    <ClInclude Include="Actor\BattlePlayer\BattlePlayer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor\Target.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -98,7 +98,10 @@
     <ClCompile Include="Level\BattleLevel\BattleLevel.CPP">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="BattlePlayer.cpp">
+    <ClCompile Include="Actor\BattlePlayer\BattlePlayer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor\Target.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

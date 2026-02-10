@@ -1,10 +1,11 @@
 #pragma once
 #ifndef __GROUND_H__
 #define __GROUND_H__
-#include "ClientCommon/Client_Includes.h"
 #include "Actor/Actor.h"
+#include "Math/Vector2.h"
 
-USING(System)
+using namespace System;
+
 class Ground : public Actor
 {
 	RTTI_DECLARATIONS(Ground, Actor)

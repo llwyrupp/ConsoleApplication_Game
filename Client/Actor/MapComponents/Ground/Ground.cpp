@@ -1,5 +1,7 @@
 #include "Ground.h"
+#include "EngineCommon/Engine_Enum.h"
 
+using namespace System;
 Ground::Ground(const Vector2& vPos)
 	:super(" ", nullptr, vPos, Color::eWhite)
 {

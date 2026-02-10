@@ -1,5 +1,6 @@
 #include "Renderer.h"
 #include "Graphics/ScreenBuffer/ScreenBuffer.h"
+#include "EngineCommon/Engine_Function.h"
 #include<iostream>
 BEGIN(System)
 
@@ -164,7 +165,7 @@ void Renderer::Render()
 	m_vecRenderQueue.clear();
 }
 
-void Renderer::Submit(string pText, const Vector2& vPos, Color eColor, int iSortOrder)
+void Renderer::Submit(std::string pText, const Vector2& vPos, Color eColor, int iSortOrder)
 {
 	//create a render data and push it into renderqueue.
 	RENDERCOM renderCom = {};
@@ -178,7 +179,7 @@ void Renderer::Submit(string pText, const Vector2& vPos, Color eColor, int iSort
 
 Renderer& Renderer::Get_Instance() {
 	if (!m_pInstance) {
-		cerr << "RENDERER INSTANCE is NULL";
+		std::cerr << "RENDERER INSTANCE is NULL";
 		__debugbreak();
 	}
 

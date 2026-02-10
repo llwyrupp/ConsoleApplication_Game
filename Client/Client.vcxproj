@@ -68,6 +68,10 @@
     <PostBuildEvent>
       <Command>xcopy ..\Library\Engine\$(Platform)\$(Configuration)\Engine.dll $(OutDir)\ /e /y</Command>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -88,6 +92,10 @@
     <PostBuildEvent>
       <Command>xcopy ..\Library\Engine\$(Platform)\$(Configuration)\Engine.dll $(OutDir)\ /e /y</Command>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Actor\Enemy\Enemy.h" />
@@ -95,14 +103,14 @@
     <ClInclude Include="Actor\MapComponents\Wall\Wall.h" />
     <ClInclude Include="Actor\Player\Player.h" />
     <ClInclude Include="Actor\Items\Item\Item.h" />
-    <ClInclude Include="BattlePlayer.h" />
+    <ClInclude Include="Actor\BattlePlayer\BattlePlayer.h" />
+    <ClInclude Include="Actor\Target.h" />
     <ClInclude Include="ClientCommon\Client_Defines.h" />
     <ClInclude Include="ClientCommon\Client_Enum.h" />
     <ClInclude Include="ClientCommon\Client_Struct.h" />
     <ClInclude Include="Game\Game.h" />
     <ClInclude Include="Actor\Items\Gear\Gear.h" />
     <ClInclude Include="Interface\ICanPlayerMove.h" />
-    <ClInclude Include="ClientCommon\Client_Includes.h" />
     <ClInclude Include="Level\BattleLevel\BattleLevel.h" />
     <ClInclude Include="Level\FieldLevel\FieldLevel.h" />
     <ClInclude Include="Level\MenuLevel\MenuLevel.h" />
@@ -111,7 +119,8 @@
     <ClCompile Include="Actor\Enemy\Enemy.cpp" />
     <ClCompile Include="Actor\MapComponents\Ground\Ground.cpp" />
     <ClCompile Include="Actor\MapComponents\Wall\Wall.cpp" />
-    <ClCompile Include="BattlePlayer.cpp" />
+    <ClCompile Include="Actor\BattlePlayer\BattlePlayer.cpp" />
+    <ClCompile Include="Actor\Target.cpp" />
     <ClCompile Include="Default\Main.cpp" />
     <ClCompile Include="Actor\Player\Player.cpp" />
     <ClCompile Include="Actor\Items\Item\Item.cpp" />

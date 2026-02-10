@@ -1,7 +1,10 @@
 #pragma once
 #ifndef __RENDERER_H__
 #define __RENDERER_H__
-#include "EngineCommon/Engine_Includes.h"
+#include "EngineCommon/Engine_Macro.h"
+#include "EngineCommon/Engine_Enum.h"
+#include "EngineCommon/Engine_Defines.h"
+#include "Math/Vector2.h"
 
 BEGIN(System)
 #define MAX_NUM_BUFFER 2
@@ -24,7 +27,7 @@ class ENGINE_DLL Renderer
 		~tagRenderCommand();*/
 
 		//const char* pText = nullptr;
-		string strText = "";
+		std::string strText = "";
 
 		//coordinates
 		Vector2 vPosition;

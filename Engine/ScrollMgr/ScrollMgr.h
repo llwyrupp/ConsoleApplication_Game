@@ -1,5 +1,7 @@
 #pragma once
-#include "EngineCommon/Engine_Includes.h"
+
+#include "EngineCommon/Engine_Defines.h"
+#include "EngineCommon/Engine_Macro.h"
 
 BEGIN(System)
 class ScrollMgr

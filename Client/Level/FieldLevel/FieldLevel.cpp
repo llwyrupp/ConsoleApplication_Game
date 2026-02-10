@@ -6,14 +6,20 @@
 #include "CollisionMgr/CollisionMgr.h"
 #include "Game/Game.h"
 #include "Level/BattleLevel/BattleLevel.h"
+#include "Util/Util.h"
+#include "Actor/Actor.h"
+#include "EngineCommon/Engine_Function.h"
+#include "Actor/BattlePlayer/BattlePlayer.h"
+#include "Actor/Target.h"
+#include "Graphics/Renderer/Renderer.h"
 
-USING(System)
+using namespace System;
 
 FieldLevel::FieldLevel()
 {
 #ifdef _DEBUG
-	LoadMap("../Data/Map/Field2.txt");//debug mode
-
+	LoadMap("../Data/Map/Field3.txt");//debug mode
+	
 	//Array Decay(?): When you pass a char[] into a function, C++ automatically converts it into a char*.
 	//AddNewActor(new Player(Vector2::Zero));
 
@@ -21,6 +27,9 @@ FieldLevel::FieldLevel()
 	//AddNewActor(new Enemy("&", nullptr, Vector2(20, 20), Color::eRed,
 	//	//"../Data/Enemy/villager1.txt", "Villager1",100,10,5));
 	//	"../Data/Enemy/slime.txt", "Slime",100,10,5));
+
+	//read player stat from file.
+	
 #elif
 	LoadMap();//release mod.
 #endif
@@ -72,12 +81,23 @@ void FieldLevel::Tick(float _fDeltaTime)
 {
 	super::Tick(_fDeltaTime);
 
-	CheckCollisions();
+	if(!Game::Get_Instance().GetIsInBattle())
+		CheckCollisions();
 }
 
 void FieldLevel::Render()
 {
 	super::Render();
+
+	string tempStr = "Remaining Enemies: " + to_string(Game::Get_Instance().GetEnemyCnt());
+	Renderer::Get_Instance().Submit(tempStr, Vector2(40, 0), Color::eWhite);
+
+	if (m_bIsGameClear)
+	{
+		Util::SetConsolePos(Vector2(30, 0));
+		Util::SetConsoleTextColor(Color::eWhite);
+		std::cout << "Game Clear!";
+	}
 }
 
 void FieldLevel::LoadMap(const char* pPath /*= nullptr*/)
@@ -100,7 +120,7 @@ void FieldLevel::LoadMap(const char* pPath /*= nullptr*/)
 
 	int iIndex = 0;
 	Vector2 vPos;
-
+	int iEnemyCnt = 0;
 	//read the file char by char.
 	while (iIndex < szFileSize) {
 		char cLetter = pBuffer[iIndex++];
@@ -123,50 +143,102 @@ void FieldLevel::LoadMap(const char* pPath /*= nullptr*/)
 		case 'P'://player
 			AddNewActor(new Player(vPos));
 			AddNewActor(new Ground(vPos));
-
 			break;
 		case 'E'://enemy
 			//TODO: Generate random enemy type.
-			AddNewActor(new Enemy("&", nullptr, vPos, Color::eRed,
-				//"../Data/Enemy/villager1.txt", "Villager1",100,10,5));
-				"../Data/Enemy/slime.txt", "Slime", 100, 10, 5));
+			++iEnemyCnt;
+#ifdef _DEBUG
+			AddNewActor(new Enemy("S", nullptr, vPos, Color::eRed,
+					//"../Data/Enemy/villager1.txt", "Villager1",100,10,5));
+					"../Data/Enemy/slime.txt", "Slime", 100, 5, 5, E_ENEMY_TYPE::E_ENEMY_SLIME));
+#elif
+			
+			//int iRandNum = Util::RandomInt(0, 3);
+			//if (iRandNum == 0) {
+			//	AddNewActor(new Enemy("S", nullptr, vPos, Color::eRed,
+			//		//"../Data/Enemy/villager1.txt", "Villager1",100,10,5));
+			//		"../Data/Enemy/slime.txt", "Slime", 100, 10, 5, E_ENEMY_TYPE::E_ENEMY_SLIME));
+			//}
+			//else if (iRandNum == 1) {
+			//	AddNewActor(new Enemy("V", nullptr, vPos, Color::eRed,
+			//		//"../Data/Enemy/villager1.txt", "Villager1",100,10,5));
+			//		"../Data/Enemy/slime.txt", "Villager", 200, 15, 20, E_ENEMY_TYPE::E_ENEMY_VILLAGER));
+			//}
+			//else if (iRandNum == 2) {
+			//	AddNewActor(new Enemy("Z", nullptr, vPos, Color::eRed,
+			//		//"../Data/Enemy/villager1.txt", "Villager1",100,10,5));
+			//		"../Data/Enemy/slime.txt", "Zombie", 300, 20, 15, E_ENEMY_TYPE::E_ENEMY_ZOMBIE));
+			//}
+#endif
 			AddNewActor(new Ground(vPos));
+
 			break;
-		default:
+
+		case 'T':
+			AddNewActor(new Target(vPos));
+			AddNewActor(new Ground(vPos));
 			break;
 		}
 
 		++vPos.m_iX;
 	}
+
+	Game::Get_Instance().SetEnemyCnt(iEnemyCnt);
+
 	Safe_Delete_Arr(pBuffer);
 	fclose(pFile);
 }
 
 void FieldLevel::CheckCollisions()
 {
-	list<Actor*> m_listDstActors;
-	list<Actor*> m_listSrcActors;
+	list<Actor*> m_listPlayer;
+	list<Actor*> m_listEnemies;
+	list<Actor*> m_listTargets;
 	//store playertype actor
 	for (auto& actor : m_vecActors) {
 		if (actor->IsTypeOf<Player>()) {
-			m_listDstActors.emplace_back(actor);
+			m_listPlayer.emplace_back(actor);
 			break;
 		}
 	}
 
 	for (auto& actor : m_vecActors) {
 		if (actor->IsTypeOf<Enemy>()) {
-			m_listSrcActors.emplace_back(actor);
+			m_listEnemies.emplace_back(actor);
+		}
+		else if (actor->IsTypeOf<Target>()) {
+			m_listTargets.emplace_back(actor);
 		}
 	}
 
-	if (System::CollisionMgr::Get_Instance().CheckCol_Player_Enemy(m_listDstActors, m_listSrcActors))
+	Enemy* pEnemy = nullptr;
+	if (pEnemy = dynamic_cast<Enemy*>(System::CollisionMgr::Get_Instance().CheckCol_Player_Enemy(m_listPlayer, m_listEnemies)))
+	{
+
+		//start battlesystem
+		//Game::Get_Instance().ToggleLevel(E_LEVEL_TYPE::E_LEVELTYPE_BATTLE);
+		BattleLevel* pLevel = new BattleLevel(
+			"../Data/Battle/BattleZombie.txt",
+			"../Data/Player/PlayerActions.txt",
+			"../Data/Player/PlayerItems.txt");
+		Game::Get_Instance().AddNewLevel(pLevel);
+		Game::Get_Instance().SetMainLevel(pLevel);
+		Game::Get_Instance().SetCurLevelType(E_LEVEL_TYPE::E_LEVELTYPE_BATTLE);
+		Game::Get_Instance().SetCurEnemy(pEnemy);
+	}
+
+	if (System::CollisionMgr::Get_Instance().CheckCol_Player_Enemy(m_listPlayer, m_listTargets))
 	{
 		//start battlesystem
-		BattleLevel* pLevel = new BattleLevel("../Data/Battle/BattleZombie.txt");
-		Game::Get_Instance().AddNewLevel(pLevel);
-		Game::Get_Instance().SetNewLevel(pLevel);
-		Game::Get_Instance().SetCurLevelType(E_LEVEL_TYPE::E_LEVELTYPE_BATTLE);
+		CheckGameOver();
+	}
+}
+
+void FieldLevel::CheckGameOver()
+{
+	if (Game::Get_Instance().GetEnemyCnt() == 0)
+	{
+		m_bIsGameClear = true;
 	}
 }
 

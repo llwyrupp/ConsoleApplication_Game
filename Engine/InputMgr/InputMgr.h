@@ -1,7 +1,8 @@
 #pragma once
 #ifndef __INPUTMGR_H__
 #define __INPUTMGR_H__
-#include "EngineCommon/Engine_Includes.h"
+#include "EngineCommon/Engine_Macro.h"
+#include "EngineCommon/Engine_Defines.h"
 
 BEGIN(System)
 

@@ -17,24 +17,24 @@ CollisionMgr::~CollisionMgr()
 CollisionMgr& CollisionMgr::Get_Instance()
 {
 	if (!m_pInstance) {
-		cerr << "CollisionMgr INSTANCE is NULL";
+		std::cerr << "CollisionMgr INSTANCE is NULL";
 		__debugbreak();
 	}
 
 	return *m_pInstance;
 }
 
-bool CollisionMgr::CheckCol_Player_Enemy(list<Actor*>& _Dst, list<Actor*>& _Src)
+Actor* CollisionMgr::CheckCol_Player_Enemy(std::list<Actor*>& _Dst, std::list<Actor*>& _Src)//dst: player, src: enemy
 {
 	for (auto& dst : _Dst) {
 		for (auto& src : _Src) {
 			if (Check_Intersect(dst->GetRect(), src->GetRect())) 
 			{
-				return true;
+				return src;
 			}
 		}
 	}
-	return false;
+	return nullptr;
 }
 
 bool CollisionMgr::Check_Intersect(const RECT& _rtDst, const RECT& _rtSrc)
@@ -59,6 +59,19 @@ bool CollisionMgr::Check_Intersect(const RECT& _rtDst, const RECT& _rtSrc)
 		return false;
 
 	return true;
+}
+
+bool CollisionMgr::CheckCol_Player_Target(std::list<Actor*>& _Dst, std::list<Actor*>& _Src)
+{
+	for (auto& dst : _Dst) {
+		for (auto& src : _Src) {
+			if (Check_Intersect(dst->GetRect(), src->GetRect()))
+			{
+				return true;
+			}
+		}
+	}
+	return false;
 }
 
 END

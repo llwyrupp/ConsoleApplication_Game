@@ -1,5 +1,5 @@
 #include "Item.h"
-USING(System)
+
 Item::Item()
 {
 }

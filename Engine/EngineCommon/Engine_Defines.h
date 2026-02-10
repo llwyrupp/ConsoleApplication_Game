@@ -1,6 +1,6 @@
 #pragma once
-#ifndef __ENGINE_DEFINES_H__
-#define __ENGINE_DEFINES_H__
+//#ifndef __ENGINE_DEFINES_H__
+//#define __ENGINE_DEFINES_H__
 
 #pragma warning(disable: 4251)	//
 #pragma warning(disable: 4172)	//
@@ -17,4 +17,20 @@
 #include<crtdbg.h>
 #endif //_DEBUG
 
-#endif//!__ENGINE_DEFINES_H__
+using namespace std;
+namespace System {}
+
+//STLs
+#include <vector>
+#include <map>
+#include <queue>
+#include <list>
+#include <unordered_map>
+#include <algorithm>
+#include <iostream>
+#include <string>
+#include <fstream>
+#include <Windows.h>
+#include <time.h>
+
+//#endif//!__ENGINE_DEFINES_H__

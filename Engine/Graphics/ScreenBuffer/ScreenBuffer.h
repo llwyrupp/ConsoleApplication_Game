@@ -1,5 +1,10 @@
 #pragma once
-#include "EngineCommon/Engine_Includes.h"
+#ifndef __SCREENBUFFER_H__
+#define __SCREENBUFFER_H__
+
+#include "EngineCommon/Engine_Macro.h"
+#include "EngineCommon/Engine_Defines.h"
+#include "Math/Vector2.h"
 
 BEGIN(System)
 	class ScreenBuffer
@@ -26,3 +31,4 @@ BEGIN(System)
 		Vector2 m_vScreenSize;
 	};
 END
+#endif

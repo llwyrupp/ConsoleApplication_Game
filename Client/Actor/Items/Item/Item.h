@@ -2,12 +2,10 @@
 #ifndef __ITEM_H__
 #define __ITEM_H__
 
-#include "ClientCommon/Client_Includes.h"
 #include "Actor/Actor.h"
 
-USING(System)
 
-class Item : public Actor
+class Item : public System::Actor
 {
 
 	RTTI_DECLARATIONS(Item, Actor)

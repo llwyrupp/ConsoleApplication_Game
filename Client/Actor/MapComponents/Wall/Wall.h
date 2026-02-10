@@ -1,11 +1,10 @@
 #pragma once
 #ifndef __WALL_H__
 #define __WALL_H__
-#include "ClientCommon/Client_Includes.h"
 #include "Actor/Actor.h"
+using namespace System;
 
-USING(System)
-class Wall : public Actor
+class Wall : public System::Actor
 {
 	RTTI_DECLARATIONS(Wall, Actor)
 public:

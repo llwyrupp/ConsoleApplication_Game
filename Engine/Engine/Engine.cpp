@@ -1,13 +1,15 @@
-#include "EngineCommon/Engine_Includes.h"
+#include "EngineCommon/Engine_Macro.h"
+#include "EngineCommon/Engine_Enum.h"
+#include "EngineCommon/Engine_Defines.h"
+#include "EngineCommon/Engine_Function.h"
 #include "Engine.h"
 #include "Level/Level.h"
 #include "InputMgr/InputMgr.h"
 #include "Graphics/Renderer/Renderer.h"
 #include "CollisionMgr/CollisionMgr.h"
 #include "Util/Util.h"
-#include "ObjectMgr.h"
 
-USING(Util)
+using namespace Util;
 
 BEGIN(System)
 
@@ -96,7 +98,7 @@ void Engine::Run()
 				m_pMainLevel->Process_AddNDestroyActors();
 		}
 	}
-	cout << "Program Quit.\n";
+	std::cout << "Program Quit.\n";
 
 
 	ShutDown();
@@ -107,10 +109,10 @@ void Engine::QuitEngine()
 	m_bIsQuit = true;
 }
 
-void Engine::SetNewLevel(Level* pNewLevel)
+void Engine::SetMainLevel(Level* _pLevel)
 {
-	Safe_Delete(m_pMainLevel);
-	m_pMainLevel = pNewLevel;
+	//Safe_Delete(m_pMainLevel);
+	m_pMainLevel = _pLevel;
 }
 
 void Engine::ShutDown()
@@ -127,7 +129,7 @@ void Engine::LoadSetting()
 
 	//exception
 	if (!pFile) {
-		cout << "Failed to open Settings.txt.\n";
+		std::cout << "Failed to open Settings.txt.\n";
 		__debugbreak();
 		return;
 	}
@@ -166,7 +168,7 @@ void Engine::LoadSetting()
 void Engine::BeginPlay()
 {
 	if (!m_pMainLevel) {
-		cerr << "m_pMainLevel is empty\n";
+		std::cerr << "m_pMainLevel is empty\n";
 		return;
 	}
 	m_pMainLevel->BeginPlay();
@@ -175,7 +177,7 @@ void Engine::BeginPlay()
 void Engine::Tick(float _fDeltaTime)
 {
 	if (!m_pMainLevel) {
-		cerr << "ENGINE: m_pMainLevel is empty\n";
+		std::cerr << "ENGINE: m_pMainLevel is empty\n";
 		return;
 	}
 	m_pMainLevel->Tick(_fDeltaTime);
@@ -184,14 +186,14 @@ void Engine::Tick(float _fDeltaTime)
 void Engine::Render()
 {
 	if (!m_pMainLevel) {
-		cerr << "m_pMainLevel is empty\n";
+		std::cerr << "m_pMainLevel is empty\n";
 		return;
 	}
 	m_pMainLevel->Render();//all actors submit to renderer.
 
 	//then renderer draws the whole thing
 	if (!m_pRenderer) {
-		cerr << "m_pRenderer is empty\n";
+		std::cerr << "m_pRenderer is empty\n";
 		return;
 	 }
 
@@ -201,7 +203,7 @@ void Engine::Render()
 Engine& Engine::Get_Instance()
 {
 	if (!m_pInstance) {
-		cerr << "ENGINE INSTANCE is NULL";
+		std::cerr << "ENGINE INSTANCE is NULL";
 		__debugbreak();
 	}
 

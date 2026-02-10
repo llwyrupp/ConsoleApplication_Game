@@ -1,18 +1,17 @@
-#include "ClientCommon/Client_Includes.h"
 #include "Actor/Player/Player.h"
 #include "InputMgr/InputMgr.h"
 #include "Level/Level.h"
 #include "Interface/ICanPlayerMove.h"
 #include "Game/Game.h"
 #include "Level/BattleLevel/BattleLevel.h"
+#include "EngineCommon/Engine_Function.h"
 
-USING(System)
+using namespace System;
+
 Player::Player(const Vector2& vPos)
 	:super(nullptr, "../Data/Player/Player.txt", vPos, Color::eGreen), m_fSpeed(30.f), m_fAccX(0.f), m_fAccY(0.f)
 {
 	m_iSortingOrder = 5;
-
-	//read player stat from file.
 	LoadPlayerStat("../Data/Player/PlayerStat.txt");
 }
 
@@ -89,12 +88,65 @@ void Player::Tick(float _fDeltaTime)
 	}
 #pragma endregion FIELDLEVEL
 
+#pragma region BATTLELEVEL
+	else if (Game::Get_Instance().GetCurLevelType() == E_LEVEL_TYPE::E_LEVELTYPE_FIELD) {
+
+		Game* pInstance = &(Game::Get_Instance());
+		CheckIfNullReturn(pInstance);
+		BattleLevel* pBattleLevel = dynamic_cast<BattleLevel*>(pInstance->Get_MainLevel());
+		CheckIfNullReturn(pBattleLevel);
+
+		if (pInstance->GetCurLevelType() == E_LEVEL_TYPE::E_LEVELTYPE_BATTLE &&
+			pBattleLevel->GetBattleSequence() == E_BATTLESEQUENCE::E_BATTLESEQUENCE_WAITFORINPUT) {
+			if (InputMgr::Get_Instance().GetKey('A')) {//fight.
+				pBattleLevel->SetBattleSequence(E_BATTLESEQUENCE::E_BATTLESEQUENCE_PLAYERACTION);
+				pBattleLevel->SetPlayerAction(E_PLAYERACTION::E_PLAYERACTION_ATTACK);
+			}
+			if (InputMgr::Get_Instance().GetKey('G')) {//guard
+				pBattleLevel->SetBattleSequence(E_BATTLESEQUENCE::E_BATTLESEQUENCE_PLAYERACTION);
+				pBattleLevel->SetPlayerAction(E_PLAYERACTION::E_PLAYERACTION_GUARD);
+			}
+			if (InputMgr::Get_Instance().GetKey('I')) {//item.
+				pBattleLevel->SetBattleSequence(E_BATTLESEQUENCE::E_BATTLESEQUENCE_PLAYERACTION);
+				pBattleLevel->SetPlayerAction(E_PLAYERACTION::E_PLAYERACTION_ITEM);
+			}
+			if (InputMgr::Get_Instance().GetKey('R')) {//run.
+				pBattleLevel->SetBattleSequence(E_BATTLESEQUENCE::E_BATTLESEQUENCE_PLAYERACTION);
+				pBattleLevel->SetPlayerAction(E_PLAYERACTION::E_PLAYERACTION_RUN);
+			}
+
+			//Select Item
+			if (pBattleLevel->GetPlayerAction() == E_PLAYERACTION::E_PLAYERACTION_ITEM) {
+				/*if (InputMgr::Get_Instance().GetKeyDown(VK_LEFT)) {
+
+				}
+				if (InputMgr::Get_Instance().GetKeyDown(VK_RIGHT)) {
+
+				}*/
+				if (InputMgr::Get_Instance().GetKeyDown(VK_UP)) {//change idx(upwards)
+					int iNextIdx = pBattleLevel->GetCurInvenIdx() - 1;
+					iNextIdx = iNextIdx < 0 ? MAX_PLAYERINVEN_SIZE - 1 : iNextIdx;
+					pBattleLevel->SetCurInvenIdx(iNextIdx);
+				}
+				if (InputMgr::Get_Instance().GetKeyDown(VK_DOWN)) {//change idx(downwards)
+					int iNextIdx = pBattleLevel->GetCurInvenIdx() + 1;
+					iNextIdx = iNextIdx >= MAX_PLAYERINVEN_SIZE ? 0 : iNextIdx;
+					pBattleLevel->SetCurInvenIdx(iNextIdx);
+				}
+				if (InputMgr::Get_Instance().GetKeyDown(VK_SPACE)) {//decide
+					pBattleLevel->SetPlayerAction(E_PLAYERACTION::E_PLAYERACTION_USEITEM);
+				}
+			}
+		}
+	}
+#pragma endregion BATTLELEVEL
 }
 
 void Player::Render()
 {
 	super::Render();
 }
+
 
 void Player::LoadPlayerStat(const char* _pPath)
 {

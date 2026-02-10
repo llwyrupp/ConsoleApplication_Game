@@ -1,12 +1,13 @@
 #pragma once
 #ifndef __LEVEL_H__
 #define __LEVEL_H__
-#include "EngineCommon/Engine_Includes.h"
+#include "EngineCommon/Engine_Macro.h"
+#include "EngineCommon/Engine_Defines.h"
 #include "EngineCommon/RTTI.h"
 
 BEGIN(System)
-class Actor;
 
+class Actor;
 class ENGINE_DLL Level : public RTTI
 {
 	RTTI_DECLARATIONS(Level, RTTI)
@@ -24,12 +25,10 @@ public:
 	void AddNewActor(Actor* pNewActor);
 	void Process_AddNDestroyActors();
 
-	inline const vector<Actor*>& GetActors() const { return m_vecActors; }
-	inline Actor* GetPlayer() const { return m_pPlayer; }
+	inline const std::vector<Actor*>& GetActors() const { return m_vecActors; }
 protected:
-	vector<Actor*> m_vecActors;
-	vector<Actor*> m_vecAddReqActors;
-	Actor* m_pPlayer = nullptr;
+	std::vector<Actor*> m_vecActors;
+	std::vector<Actor*> m_vecAddReqActors;
 };
 
 END

@@ -7,7 +7,7 @@ Actor::Actor(const char* pImage, const char* pPath, const Vector2& vPos, Color c
 	:m_vPosition(vPos), m_eColor(color), m_iStringHeight(1), m_iStringWidth(1)
 {
 	if (!pImage && !pPath) {
-		cerr << "============YOU NEED AT LEAST ONE: CHAR or PATH============" << this->GetType();
+		std::cerr << "============YOU NEED AT LEAST ONE: CHAR or PATH============" << this->GetType();
 		__debugbreak();
 	}
 
@@ -75,13 +75,13 @@ void Actor::SetPos(const Vector2& vNewPos)
 
 void Actor::LoadString_FromFile(const char* _pPath)//read actor's representeation in FieldLevel if its size is bigger than 1.
 {
-	ifstream file(_pPath);
+	std::ifstream file(_pPath);
 
 	if (file.is_open())
 	{
-		string tempStr = "";
+		std::string tempStr = "";
 		
-		while (getline(file, tempStr)) {
+		while (std::getline(file, tempStr)) {
 			m_vecStr_FieldLevel.emplace_back(tempStr);
 		}
 		m_iStringWidth = static_cast<int>(m_vecStr_FieldLevel[0].length());

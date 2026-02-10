@@ -1,11 +1,10 @@
 #pragma once
 #ifndef __FIELDLEVEL_H__
 #define __FIELDLEVEL_H__
-#include "ClientCommon/Client_Includes.h"
 #include "Interface/ICanPlayerMove.h"
 #include "Level/Level.h"
 
-USING(System)
+using namespace System; 
 class FieldLevel : public Level, public ICanPlayerMove
 {
 	RTTI_DECLARATIONS(FieldLevel, Level)
@@ -22,5 +21,8 @@ public:
 public:
 	void LoadMap(const char* pPath = nullptr);
 	void CheckCollisions();
+	void CheckGameOver();
+private:
+	bool m_bIsGameClear = false;
 };
 #endif

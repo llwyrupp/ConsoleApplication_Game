@@ -101,7 +101,6 @@ xcopy $(OutDir)\Engine.lib ..\Library\Engine\$(Platform)\$(Configuration)\ /e /y
     <ClInclude Include="EngineCommon\Engine_Defines.h" />
     <ClInclude Include="EngineCommon\Engine_Enum.h" />
     <ClInclude Include="EngineCommon\Engine_Function.h" />
-    <ClInclude Include="EngineCommon\Engine_Includes.h" />
     <ClInclude Include="EngineCommon\Engine_Macro.h" />
     <ClInclude Include="EngineCommon\Engine_Struct.h" />
     <ClInclude Include="EngineCommon\RTTI.h" />
@@ -111,7 +110,6 @@ xcopy $(OutDir)\Engine.lib ..\Library\Engine\$(Platform)\$(Configuration)\ /e /y
     <ClInclude Include="Level\Level.h" />
     <ClInclude Include="Engine\Engine.h" />
     <ClInclude Include="Math\Vector2.h" />
-    <ClInclude Include="ObjectMgr.h" />
     <ClInclude Include="ScrollMgr\ScrollMgr.h" />
     <ClInclude Include="Util\Util.h" />
   </ItemGroup>
@@ -124,7 +122,6 @@ xcopy $(OutDir)\Engine.lib ..\Library\Engine\$(Platform)\$(Configuration)\ /e /y
     <ClCompile Include="Level\Level.cpp" />
     <ClCompile Include="Engine\Engine.cpp" />
     <ClCompile Include="Math\Vector2.cpp" />
-    <ClCompile Include="ObjectMgr.cpp" />
     <ClCompile Include="ScrollMgr\ScrollMgr.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

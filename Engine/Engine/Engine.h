@@ -1,5 +1,6 @@
 #pragma once
-#include "EngineCommon/Engine_Includes.h"
+#include "EngineCommon/Engine_Defines.h"
+#include "EngineCommon/Engine_Macro.h"
 
 BEGIN(System)
 	class InputMgr;
@@ -26,7 +27,7 @@ BEGIN(System)
 	public:
 		void Run();
 		void QuitEngine();
-		void SetNewLevel(class Level* pNewLevel);
+		void SetMainLevel(class Level* _pLevel);
 		void ShutDown();
 		void LoadSetting();
 	public:
