@@ -145,8 +145,6 @@ void BattlePlayer::SavePlayerStat(const char* _pPath)
 		cerr << "FAILED TO LOAD PLAYERSTAT.txt";
 		__debugbreak();
 	}
-
-
 	fprintf(pFile, "iHP = %d\n", m_tInfo.iHP);
 	fprintf(pFile, "iMP = %d\n", m_tInfo.iMP);
 	fprintf(pFile, "iAttack = %d\n", m_tInfo.iAttack);

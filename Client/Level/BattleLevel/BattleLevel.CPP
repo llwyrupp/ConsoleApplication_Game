@@ -1,4 +1,4 @@
-#include "BattleLevel.h"
+ï»¿#include "BattleLevel.h"
 #include "Graphics/Renderer/Renderer.h"
 #include "Game/Game.h"
 #include "Util/Util.h"
@@ -6,6 +6,7 @@
 #include "Actor/BattlePlayer/BattlePlayer.h"
 #include "Actor/Enemy/Enemy.h"
 #include "EngineCommon/Engine_Function.h"
+#include "Effect.h"
 
 using namespace System;
 
@@ -85,9 +86,6 @@ void BattleLevel::Tick(float _fDeltaTime)
 			break;
 		case E_BATTLESEQUENCE::E_BATTLESEQUENCE_ESCAPE:
 		case E_BATTLESEQUENCE::E_BATTLESEQUENCE_COMPLETE:
-			//Game::Get_Instance().EraseLevel(this);
-			//BAck to FieldLevel.
-			//Update_EnemyStatus();//one last update
 			Game::Get_Instance().ToggleLevel(E_LEVEL_TYPE::E_LEVELTYPE_FIELD);
 			Game::Get_Instance().EraseLevel(this);
 			Game::Get_Instance().SetIsInBattle(false);
@@ -113,6 +111,8 @@ void BattleLevel::Render()
 
 
 	//Notice Situation
+	/*Renderer::Get_Instance().Submit(m_strNotiSituation, 
+		Vector2(m_vPosNotiSituation.m_iX + static_cast<int>(m_fTimeAcc * 5), m_vPosNotiSituation.m_iY), Color::eWhite);*/
 	Renderer::Get_Instance().Submit(m_strNotiSituation, m_vPosNotiSituation, Color::eWhite);
 	//Render Player HP string
 	Renderer::Get_Instance().Submit(m_strPlayerHP, m_vPosPlayerHP, Color::eGreen);
@@ -156,7 +156,7 @@ void BattleLevel::Update_PlayerStatus()
 	//player hp
 	m_strPlayerHP = "HP [";
 	for (int i = 0; i < iFillHP; ++i)
-		m_strPlayerHP.append("¢½");
+		m_strPlayerHP.append("O");
 	for (int i = iFillHP; i < GAUGE_SIZE; ++i)
 		m_strPlayerHP.append("-");
 	m_strPlayerHP.append("] [");
@@ -169,7 +169,7 @@ void BattleLevel::Update_PlayerStatus()
 	//player mp
 	m_strPlayerMP = "MP [";
 	for (int i = 0; i < iFillMP; ++i)
-		m_strPlayerMP.append("¢»");
+		m_strPlayerMP.append("O");
 	for (int i = iFillMP; i < GAUGE_SIZE; ++i)
 		m_strPlayerMP.append("-");
 	m_strPlayerMP.append("] [");
@@ -187,7 +187,7 @@ void BattleLevel::Update_EnemyStatus()
 	//enemy hp bar
 	m_strEnemyHP = "HP [";
 	for (int i = 0; i < iFillHP; ++i)
-		m_strEnemyHP.append("¢¾");
+		m_strEnemyHP.append("O");
 	for(int i = iFillHP; i< GAUGE_SIZE; ++i)
 		m_strEnemyHP.append("-");
 
@@ -256,6 +256,9 @@ void BattleLevel::EnemyHit()
 		//reduce enemy hp
 
 		m_fTimeAcc = 0.f, m_bIsNextSeqReady = false;//start delay until next sequence
+
+		//create hit effect
+		//AddNewActor(new Effect(Vector2(80, 30)));
 	}
 }
 
@@ -264,7 +267,7 @@ void BattleLevel::Intermission()
 	//print system string
 	//m_strNotiSituation = "...INTERMISSION...";
 	//m_strNotiSituation = "You feel an urge to run away...";
-	m_strNotiSituation = "...";
+	m_strNotiSituation = "Enemy is getting ready to take action...";
 	m_eBattleSeq = E_BATTLESEQUENCE::E_BATTLESEQUENCE_ENEMYACTION;
 
 	//reset all actions
@@ -278,7 +281,7 @@ void BattleLevel::EnemyAction()
 {
 	int iRandNum = Util::RandomInt(0, 1);
 
-	switch (0) {
+	switch (iRandNum) {
 	case 0://ATTACK
 		m_strNotiSituation = "Enemy attacks Player with his fist!";
 		m_eEnemyState = E_ENEMYSTATE::E_ENEMYSTATE_ATTACK;
@@ -295,8 +298,6 @@ void BattleLevel::EnemyAction()
 		cout << "NO ACTION FOR THIS INDEX\n";
 		break;
 	}
-
-	
 }
 
 void BattleLevel::PlayerHit()

@@ -108,6 +108,7 @@
     <ClInclude Include="ClientCommon\Client_Defines.h" />
     <ClInclude Include="ClientCommon\Client_Enum.h" />
     <ClInclude Include="ClientCommon\Client_Struct.h" />
+    <ClInclude Include="Effect.h" />
     <ClInclude Include="Game\Game.h" />
     <ClInclude Include="Actor\Items\Gear\Gear.h" />
     <ClInclude Include="Interface\ICanPlayerMove.h" />
@@ -124,6 +125,7 @@
     <ClCompile Include="Default\Main.cpp" />
     <ClCompile Include="Actor\Player\Player.cpp" />
     <ClCompile Include="Actor\Items\Item\Item.cpp" />
+    <ClCompile Include="Effect.cpp" />
     <ClCompile Include="Game\Game.cpp" />
     <ClCompile Include="Actor\Items\Gear\Gear.cpp" />
     <ClCompile Include="Level\BattleLevel\BattleLevel.CPP" />

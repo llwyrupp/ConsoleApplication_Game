@@ -150,7 +150,7 @@ void FieldLevel::LoadMap(const char* pPath /*= nullptr*/)
 #ifdef _DEBUG
 			AddNewActor(new Enemy("S", nullptr, vPos, Color::eRed,
 					//"../Data/Enemy/villager1.txt", "Villager1",100,10,5));
-					"../Data/Enemy/slime.txt", "Slime", 100, 5, 5, E_ENEMY_TYPE::E_ENEMY_SLIME));
+					"../Data/Enemy/slime.txt", "Zombie", 100, 15, 5, E_ENEMY_TYPE::E_ENEMY_ZOMBIE));
 #elif
 			
 			//int iRandNum = Util::RandomInt(0, 3);
@@ -227,7 +227,7 @@ void FieldLevel::CheckCollisions()
 		Game::Get_Instance().SetCurEnemy(pEnemy);
 	}
 
-	if (System::CollisionMgr::Get_Instance().CheckCol_Player_Enemy(m_listPlayer, m_listTargets))
+	if (System::CollisionMgr::Get_Instance().CheckCol_Player_Target(m_listPlayer, m_listTargets))
 	{
 		//start battlesystem
 		CheckGameOver();

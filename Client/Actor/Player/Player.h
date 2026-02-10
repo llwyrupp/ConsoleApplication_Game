@@ -22,11 +22,9 @@ private:
 	float m_fAccX = 0.f;
 	float m_fAccY = 0.f;
 public:
-	inline const PLAYERINFO& GetInfo() const { return m_tInfo; }
-	inline void SetPlayerHP(int _iHP) { m_tInfo.iHP = _iHP; }
-	void LoadPlayerStat(const char* _pPath);
+	
 private:
-	PLAYERINFO m_tInfo = {};
+	//PLAYERINFO m_tInfo = {};
 };
 
 #endif

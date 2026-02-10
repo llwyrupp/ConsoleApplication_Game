@@ -55,6 +55,22 @@ void Actor::Render()
 	}
 }
 
+void Actor::Destroy()
+{
+	m_bIsDestroyRequested = true;
+	OnDestroy();
+}
+
+void Actor::OnDestroy()
+{
+	//logic when actor is destroyed
+}
+
+void Actor::ChangeImage(const char* newImage)
+{
+	m_strImg = newImage;
+}
+
 void Actor::UpdateRect()
 {
 	m_rtSize.left = static_cast<long>(m_vPosition.m_iX);

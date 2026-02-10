@@ -9,10 +9,10 @@
 using namespace System;
 
 Player::Player(const Vector2& vPos)
-	:super(nullptr, "../Data/Player/Player.txt", vPos, Color::eGreen), m_fSpeed(30.f), m_fAccX(0.f), m_fAccY(0.f)
+	:super(nullptr, "../Data/Player/Player.txt", vPos, Color::eGreen), m_fSpeed(20.f), m_fAccX(0.f), m_fAccY(0.f)
 {
 	m_iSortingOrder = 5;
-	LoadPlayerStat("../Data/Player/PlayerStat.txt");
+	//LoadPlayerStat("../Data/Player/PlayerStat.txt");
 }
 
 Player::~Player()
@@ -148,55 +148,55 @@ void Player::Render()
 }
 
 
-void Player::LoadPlayerStat(const char* _pPath)
-{
-	FILE* pFile = nullptr;
-
-	fopen_s(&pFile, _pPath, "rt");
-
-	if (!pFile)
-	{
-		cerr << "FAILED TO LOAD PLAYERSTAT.txt";
-		__debugbreak();
-	}
-
-	char cBuffer[MAX_BUFFER_LEN] = {};
-	char* pToken = {};
-	char* pContext = {};
-	size_t szLen = fread(cBuffer, sizeof(char), MAX_BUFFER_LEN, pFile);
-	if (szLen == 0) {
-		cerr << "No file at: " << _pPath;
-		__debugbreak();
-	}
-
-	pToken = strtok_s(cBuffer, "\n", &pContext);
-
-	while (pToken) {
-		char pHeader[MAX_HEADER_LEN] = {};
-		sscanf_s(pToken, "%s", pHeader, MAX_HEADER_LEN);
-
-		if (!strcmp(pHeader, "iHP")) {
-			sscanf_s(pToken, "iHP = %d", &m_tInfo.iHP);
-		}
-		else if (!strcmp(pHeader, "iMP")) {
-			sscanf_s(pToken, "iMP = %d", &m_tInfo.iMP);
-		}
-		else if (!strcmp(pHeader, "iAttack")) {
-			sscanf_s(pToken, "iAttack = %d", &m_tInfo.iAttack);
-		}
-		else if (!strcmp(pHeader, "iDefense")) {
-			sscanf_s(pToken, "iDefense = %d", &m_tInfo.iDefense);
-		}
-		else if (!strcmp(pHeader, "iCritRate")) {
-			sscanf_s(pToken, "iCritRate = %d", &m_tInfo.iCritRate);
-		}
-		else if (!strcmp(pHeader, "iCritDmg")) {
-			sscanf_s(pToken, "iCritDmg = %d", &m_tInfo.iCritDmg);
-		}
-
-		pToken = strtok_s(nullptr, "\n", &pContext);
-	}
-
-
-	fclose(pFile);
-}
+//void Player::LoadPlayerStat(const char* _pPath)
+//{
+//	FILE* pFile = nullptr;
+//
+//	fopen_s(&pFile, _pPath, "rt");
+//
+//	if (!pFile)
+//	{
+//		cerr << "FAILED TO LOAD PLAYERSTAT.txt";
+//		__debugbreak();
+//	}
+//
+//	char cBuffer[MAX_BUFFER_LEN] = {};
+//	char* pToken = {};
+//	char* pContext = {};
+//	size_t szLen = fread(cBuffer, sizeof(char), MAX_BUFFER_LEN, pFile);
+//	if (szLen == 0) {
+//		cerr << "No file at: " << _pPath;
+//		__debugbreak();
+//	}
+//
+//	pToken = strtok_s(cBuffer, "\n", &pContext);
+//
+//	while (pToken) {
+//		char pHeader[MAX_HEADER_LEN] = {};
+//		sscanf_s(pToken, "%s", pHeader, MAX_HEADER_LEN);
+//
+//		if (!strcmp(pHeader, "iHP")) {
+//			sscanf_s(pToken, "iHP = %d", &m_tInfo.iHP);
+//		}
+//		else if (!strcmp(pHeader, "iMP")) {
+//			sscanf_s(pToken, "iMP = %d", &m_tInfo.iMP);
+//		}
+//		else if (!strcmp(pHeader, "iAttack")) {
+//			sscanf_s(pToken, "iAttack = %d", &m_tInfo.iAttack);
+//		}
+//		else if (!strcmp(pHeader, "iDefense")) {
+//			sscanf_s(pToken, "iDefense = %d", &m_tInfo.iDefense);
+//		}
+//		else if (!strcmp(pHeader, "iCritRate")) {
+//			sscanf_s(pToken, "iCritRate = %d", &m_tInfo.iCritRate);
+//		}
+//		else if (!strcmp(pHeader, "iCritDmg")) {
+//			sscanf_s(pToken, "iCritDmg = %d", &m_tInfo.iCritDmg);
+//		}
+//
+//		pToken = strtok_s(nullptr, "\n", &pContext);
+//	}
+//
+//
+//	fclose(pFile);
+//}

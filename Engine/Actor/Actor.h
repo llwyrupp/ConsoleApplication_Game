@@ -23,6 +23,9 @@ namespace System {
 		virtual void Tick(float _fDeltaTime) = 0;
 		virtual void Render() = 0;
 	public:
+		void Destroy();
+		void OnDestroy();
+		void ChangeImage(const char* newImage);
 		void LoadString_FromFile(const char* _pPath);
 		void UpdateRect();
 		void SetPos(const Vector2& vNewPos);
