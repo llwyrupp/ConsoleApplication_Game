@@ -20,10 +20,12 @@ BattlePlayer::~BattlePlayer()
 
 void BattlePlayer::BeginPlay()
 {
+	super::BeginPlay();
 }
 
 void BattlePlayer::Tick(float _fDeltaTime)
 {
+	super::Tick(_fDeltaTime);
 #pragma region BATTLELEVEL
 
 	Game* pInstance = &(Game::Get_Instance());
@@ -33,25 +35,25 @@ void BattlePlayer::Tick(float _fDeltaTime)
 
 	if (pInstance->GetCurLevelType() == E_LEVEL_TYPE::E_LEVELTYPE_BATTLE &&
 		pBattleLevel->GetBattleSequence() == E_BATTLESEQUENCE::E_BATTLESEQUENCE_WAITFORINPUT) {
-		if (InputMgr::Get_Instance().GetKey('A')) {//fight.
-			pBattleLevel->SetBattleSequence(E_BATTLESEQUENCE::E_BATTLESEQUENCE_PLAYERACTION);
-			pBattleLevel->SetPlayerAction(E_PLAYERACTION::E_PLAYERACTION_ATTACK);
-		}
-		if (InputMgr::Get_Instance().GetKey('G')) {//guard
-			pBattleLevel->SetBattleSequence(E_BATTLESEQUENCE::E_BATTLESEQUENCE_PLAYERACTION);
-			pBattleLevel->SetPlayerAction(E_PLAYERACTION::E_PLAYERACTION_GUARD);
-		}
-		if (InputMgr::Get_Instance().GetKey('I')) {//item.
-			pBattleLevel->SetBattleSequence(E_BATTLESEQUENCE::E_BATTLESEQUENCE_PLAYERACTION);
-			pBattleLevel->SetPlayerAction(E_PLAYERACTION::E_PLAYERACTION_ITEM);
-		}
-		if (InputMgr::Get_Instance().GetKey('R')) {//run.
-			pBattleLevel->SetBattleSequence(E_BATTLESEQUENCE::E_BATTLESEQUENCE_PLAYERACTION);
-			pBattleLevel->SetPlayerAction(E_PLAYERACTION::E_PLAYERACTION_RUN);
-		}
+		//if (InputMgr::Get_Instance().GetKey('A')) {//fight.
+		//	pBattleLevel->SetBattleSequence(E_BATTLESEQUENCE::E_BATTLESEQUENCE_PLAYERACTION);
+		//	pBattleLevel->SetPlayerAction(E_PLAYERACTION::E_PLAYERACTION_ATTACK);
+		//}
+		//if (InputMgr::Get_Instance().GetKey('G')) {//guard
+		//	pBattleLevel->SetBattleSequence(E_BATTLESEQUENCE::E_BATTLESEQUENCE_PLAYERACTION);
+		//	pBattleLevel->SetPlayerAction(E_PLAYERACTION::E_PLAYERACTION_GUARD);
+		//}
+		//if (InputMgr::Get_Instance().GetKey('I')) {//item.
+		//	pBattleLevel->SetBattleSequence(E_BATTLESEQUENCE::E_BATTLESEQUENCE_PLAYERACTION);
+		//	pBattleLevel->SetPlayerAction(E_PLAYERACTION::E_PLAYERACTION_ITEM);
+		//}
+		//if (InputMgr::Get_Instance().GetKey('R')) {//run.
+		//	pBattleLevel->SetBattleSequence(E_BATTLESEQUENCE::E_BATTLESEQUENCE_PLAYERACTION);
+		//	pBattleLevel->SetPlayerAction(E_PLAYERACTION::E_PLAYERACTION_RUN);
+		//}
 
 		//Select Item
-		if (pBattleLevel->GetPlayerAction() == E_PLAYERACTION::E_PLAYERACTION_ITEM) {
+		if (pBattleLevel->GetPlayerAction() == E_PLAYERACTION::E_PLAYERACTION_SELECTITEM) {
 			/*if (InputMgr::Get_Instance().GetKeyDown(VK_LEFT)) {
 
 			}
@@ -72,12 +74,42 @@ void BattlePlayer::Tick(float _fDeltaTime)
 				pBattleLevel->SetPlayerAction(E_PLAYERACTION::E_PLAYERACTION_USEITEM);
 			}
 		}
+		else if(pBattleLevel->GetPlayerAction() == E_PLAYERACTION::E_PLAYERACTION_NONE)//select action
+		{
+			if (InputMgr::Get_Instance().GetKeyDown(VK_UP)) {//change idx(upwards)
+				int iNextIdx = pBattleLevel->GetCurActionChoiceArrowIdx() - 1;
+
+				//TODO: delete
+				if (iNextIdx == 2)
+					iNextIdx = 1;
+
+				iNextIdx = iNextIdx < 0 ? MAX_PLAYERACTION_SIZE - 1 : iNextIdx;
+				pBattleLevel->SetCurActionChoiceArrowIdx(iNextIdx);
+				m_eCurPlayerAction = (E_PLAYERACTION)iNextIdx;
+			}
+			if (InputMgr::Get_Instance().GetKeyDown(VK_DOWN)) {//change idx(downwards)
+				int iNextIdx = pBattleLevel->GetCurActionChoiceArrowIdx() + 1;
+
+				//TODO: delete
+				if (iNextIdx == 2)
+					iNextIdx = 3;
+
+				iNextIdx = iNextIdx >= MAX_PLAYERACTION_SIZE ? 0 : iNextIdx;
+				pBattleLevel->SetCurActionChoiceArrowIdx(iNextIdx);
+				m_eCurPlayerAction = (E_PLAYERACTION)iNextIdx;
+			}
+			if (InputMgr::Get_Instance().GetKeyDown(VK_SPACE)) {//decide
+				pBattleLevel->SetBattleSequence(E_BATTLESEQUENCE::E_BATTLESEQUENCE_PLAYERACTION);
+				pBattleLevel->SetPlayerAction(m_eCurPlayerAction);
+			}
+		}
 	}
 #pragma endregion BATTLELEVEL
 }
 
 void BattlePlayer::Render()
 {
+	super::Render();
 }
 
 

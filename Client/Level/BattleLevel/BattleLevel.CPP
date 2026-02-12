@@ -7,6 +7,7 @@
 #include "Actor/Enemy/Enemy.h"
 #include "EngineCommon/Engine_Function.h"
 #include "Effect.h"
+#include "Level/FieldLevel/FieldLevel.h"
 
 using namespace System;
 
@@ -46,7 +47,7 @@ BattleLevel::~BattleLevel()
 
 void BattleLevel::BeginPlay()
 {
-
+	super::BeginPlay();
 }
 
 void BattleLevel::Tick(float _fDeltaTime)
@@ -59,8 +60,31 @@ void BattleLevel::Tick(float _fDeltaTime)
 	if (!m_bIsNextSeqReady) {
 		m_fTimeAcc += _fDeltaTime;
 
-		if (m_fTimeAcc > s_fSequenceTimeDelay)
+		if (m_fTimeAcc > s_fSequenceTimeDelay) {
 			m_bIsNextSeqReady = true;//move on to the next sequence.
+			m_bHPFlash = false;
+			m_bEnemyHPFlash = false;
+		}
+
+
+		//player hit effect
+		if (m_bHPFlash)
+		{
+			int iRandInt = Util::RandomInt(0, 8);
+			m_sColor_PlayerHP = static_cast<unsigned short>(iRandInt);
+		}
+		else
+			m_sColor_PlayerHP = static_cast<unsigned short>(Color::eGreen);
+
+
+		//enemy hit effect
+		if (m_bEnemyHPFlash)
+		{
+			int iRandInt = Util::RandomInt(0, 8);
+			m_sColor_EnemyHP = static_cast<unsigned short>(iRandInt);
+		}
+		else
+			m_sColor_EnemyHP = static_cast<unsigned short>(Color::eRed);
 	}
 
 #pragma region FSM
@@ -104,6 +128,8 @@ void BattleLevel::Tick(float _fDeltaTime)
 
 void BattleLevel::Render()
 {
+	super::Render();
+
 	//render battle scene
 	int iLineIdx = 0;
 	for (auto& const line : m_vecStrBattleScene)
@@ -115,13 +141,13 @@ void BattleLevel::Render()
 		Vector2(m_vPosNotiSituation.m_iX + static_cast<int>(m_fTimeAcc * 5), m_vPosNotiSituation.m_iY), Color::eWhite);*/
 	Renderer::Get_Instance().Submit(m_strNotiSituation, m_vPosNotiSituation, Color::eWhite);
 	//Render Player HP string
-	Renderer::Get_Instance().Submit(m_strPlayerHP, m_vPosPlayerHP, Color::eGreen);
+	Renderer::Get_Instance().Submit(m_strPlayerHP, m_vPosPlayerHP, static_cast<Color>(m_sColor_PlayerHP));
 	//Render Player MP string
 	Renderer::Get_Instance().Submit(m_strPlayerMP, m_vPosPlayerMP, Color::eBlue);
 	//Render enemy HP string
-	Renderer::Get_Instance().Submit(m_strEnemyHP, m_vPosEnemyHP, Color::eRed);
+	Renderer::Get_Instance().Submit(m_strEnemyHP, m_vPosEnemyHP, static_cast<Color>(m_sColor_EnemyHP));
 
-	if (m_ePlayerAction != E_PLAYERACTION::E_PLAYERACTION_ITEM)
+	if (m_ePlayerAction != E_PLAYERACTION::E_PLAYERACTION_SELECTITEM)
 	{
 		//render player actions
 		for (int i = 0; i < static_cast<int>(m_vecStrPlayerActions.size()); ++i)
@@ -138,7 +164,27 @@ void BattleLevel::Render()
 	}
 
 	//render player choice arrow
-	Renderer::Get_Instance().Submit(m_strInvenArrow, m_vPosArrow, Color::eGreen, 10);
+	if (m_eBattleSeq == E_BATTLESEQUENCE::E_BATTLESEQUENCE_WAITFORINPUT)
+	{
+		/*if (m_ePlayerAction == E_PLAYERACTION::E_PLAYERACTION_SELECTITEM)
+		{
+			for (int i = 0; i < static_cast<int>(m_vecStrPlayerActions.size()); ++i)
+			{
+				Renderer::Get_Instance().Submit(m_strInvenArrow, m_vPosInvenArrow[i], Color::eRed, 10);
+				break;
+			}
+		}
+		else
+		{
+			for (int i = 0; i < static_cast<int>(m_vecStrPlayerActions.size()); ++i)
+			{
+				
+				break;
+			}
+		}*/
+	}
+	Renderer::Get_Instance().Submit(m_strActionChoiceArrow, m_vPosActionChoiceArrow[m_iCurActionChoiceArrowIdx], Color::eGreen, 11);
+		
 }
 
 void BattleLevel::Update_PlayerStatus()
@@ -156,7 +202,7 @@ void BattleLevel::Update_PlayerStatus()
 	//player hp
 	m_strPlayerHP = "HP [";
 	for (int i = 0; i < iFillHP; ++i)
-		m_strPlayerHP.append("O");
+		m_strPlayerHP.append("♥");
 	for (int i = iFillHP; i < GAUGE_SIZE; ++i)
 		m_strPlayerHP.append("-");
 	m_strPlayerHP.append("] [");
@@ -169,7 +215,7 @@ void BattleLevel::Update_PlayerStatus()
 	//player mp
 	m_strPlayerMP = "MP [";
 	for (int i = 0; i < iFillMP; ++i)
-		m_strPlayerMP.append("O");
+		m_strPlayerMP.append("♤");
 	for (int i = iFillMP; i < GAUGE_SIZE; ++i)
 		m_strPlayerMP.append("-");
 	m_strPlayerMP.append("] [");
@@ -187,7 +233,7 @@ void BattleLevel::Update_EnemyStatus()
 	//enemy hp bar
 	m_strEnemyHP = "HP [";
 	for (int i = 0; i < iFillHP; ++i)
-		m_strEnemyHP.append("O");
+		m_strEnemyHP.append("♡");
 	for(int i = iFillHP; i< GAUGE_SIZE; ++i)
 		m_strEnemyHP.append("-");
 
@@ -200,9 +246,20 @@ void BattleLevel::Update_Arrow()
 {
 	//update arrow position.
 	for (int i = 0; i < MAX_PLAYERACTION_SIZE; ++i) {
-		if (m_iCurInventoryIndex == i) {
-			m_vPosArrow = m_vPosChoice[i];
-			break;
+		if (m_ePlayerAction == E_PLAYERACTION::E_PLAYERACTION_SELECTITEM) {
+			if (m_iCurInventoryIndex == i) {
+				m_vPosInvenArrow[i] = m_vPosChoice[i];
+				--m_vPosInvenArrow[i].m_iX;
+				break;
+			}
+		}
+		else {
+			if (m_iCurActionChoiceArrowIdx == i) {
+				m_vPosActionChoiceArrow[i] = m_vPosChoice[i];
+				--m_vPosActionChoiceArrow[i].m_iX;
+				break;
+			}
+			
 		}
 	}
 }
@@ -216,7 +273,7 @@ void BattleLevel::PlayerAction()
 	case E_PLAYERACTION::E_PLAYERACTION_GUARD:
 		PlayerGuard();
 		break;
-	case E_PLAYERACTION::E_PLAYERACTION_ITEM:
+	case E_PLAYERACTION::E_PLAYERACTION_SELECTITEM:
 		PlayerOpenInven();
 		break;
 	case E_PLAYERACTION::E_PLAYERACTION_USEITEM:
@@ -256,9 +313,11 @@ void BattleLevel::EnemyHit()
 		//reduce enemy hp
 
 		m_fTimeAcc = 0.f, m_bIsNextSeqReady = false;//start delay until next sequence
+		m_bEnemyHPFlash = true;
 
 		//create hit effect
-		//AddNewActor(new Effect(Vector2(80, 30)));
+		AddNewActor(new Effect(Vector2(37, 11)));
+		AddNewActor(new Effect(Vector2(40, 11)));
 	}
 }
 
@@ -279,9 +338,9 @@ void BattleLevel::Intermission()
 
 void BattleLevel::EnemyAction()
 {
-	int iRandNum = Util::RandomInt(0, 1);
+	int iRandNum = Util::RandomInt(0, 100);
 
-	switch (iRandNum) {
+	switch (iRandNum % 2) {
 	case 0://ATTACK
 		m_strNotiSituation = "Enemy attacks Player with his fist!";
 		m_eEnemyState = E_ENEMYSTATE::E_ENEMYSTATE_ATTACK;
@@ -316,6 +375,8 @@ void BattleLevel::PlayerHit()
 				m_strNotiSituation = "Player hit by Enemy! " + to_string(iEnemyAttack) + " Damage Taken!";
 				m_eBattleSeq = E_BATTLESEQUENCE::E_BATTLESEQUENCE_WAITFORINPUT;
 				m_fTimeAcc = 0.f, m_bIsNextSeqReady = false;
+
+				m_bHPFlash = true;
 			}
 		}
 		break;
@@ -340,7 +401,7 @@ void BattleLevel::PlayerAttack()
 void BattleLevel::PlayerGuard()
 {
 	m_strNotiSituation = "Player raises up his arms to guard! Defense increased!";
-	m_eBattleSeq = E_BATTLESEQUENCE::E_BATTLESEQUENCE_WAITFORINPUT;//wait for player input
+	m_eBattleSeq = E_BATTLESEQUENCE::E_BATTLESEQUENCE_INTERMISSION;//wait for player input
 
 	m_fTimeAcc = 0.f, m_bIsNextSeqReady = false;
 }
@@ -381,10 +442,15 @@ void BattleLevel::PlayerTryRun()
 	if (iRandInt > 50) {
 		m_strNotiSituation = "Player successfully escaped!";
 		m_eBattleSeq = E_BATTLESEQUENCE::E_BATTLESEQUENCE_COMPLETE;
+
+		Level* pLevel = Game::Get_Instance().GetLevel((int)E_LEVEL_TYPE::E_LEVELTYPE_FIELD);
+		if (pLevel && Game::Get_Instance().GetCurLevelType() == E_LEVEL_TYPE::E_LEVELTYPE_FIELD)
+			dynamic_cast<FieldLevel*>(pLevel)->SetHasPlayerEscaped(true);
+
 	}
 	else {
 		m_strNotiSituation = "Player failed to flee!";
-		m_eBattleSeq = E_BATTLESEQUENCE::E_BATTLESEQUENCE_WAITFORINPUT;
+		m_eBattleSeq = E_BATTLESEQUENCE::E_BATTLESEQUENCE_INTERMISSION;
 	}
 
 	m_fTimeAcc = 0.f, m_bIsNextSeqReady = false;

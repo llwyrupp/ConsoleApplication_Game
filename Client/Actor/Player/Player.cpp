@@ -108,7 +108,7 @@ void Player::Tick(float _fDeltaTime)
 			}
 			if (InputMgr::Get_Instance().GetKey('I')) {//item.
 				pBattleLevel->SetBattleSequence(E_BATTLESEQUENCE::E_BATTLESEQUENCE_PLAYERACTION);
-				pBattleLevel->SetPlayerAction(E_PLAYERACTION::E_PLAYERACTION_ITEM);
+				pBattleLevel->SetPlayerAction(E_PLAYERACTION::E_PLAYERACTION_SELECTITEM);
 			}
 			if (InputMgr::Get_Instance().GetKey('R')) {//run.
 				pBattleLevel->SetBattleSequence(E_BATTLESEQUENCE::E_BATTLESEQUENCE_PLAYERACTION);
@@ -116,7 +116,7 @@ void Player::Tick(float _fDeltaTime)
 			}
 
 			//Select Item
-			if (pBattleLevel->GetPlayerAction() == E_PLAYERACTION::E_PLAYERACTION_ITEM) {
+			if (pBattleLevel->GetPlayerAction() == E_PLAYERACTION::E_PLAYERACTION_SELECTITEM) {
 				/*if (InputMgr::Get_Instance().GetKeyDown(VK_LEFT)) {
 
 				}

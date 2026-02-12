@@ -3,17 +3,34 @@
 
 static const Effect::EFFECTFRAME sequence[] =
 {
-	Effect::EFFECTFRAME("  @  ", 1.08f, Color::eRed),
-	Effect::EFFECTFRAME(" @@  ", 1.08f, Color::eBlue),
-	Effect::EFFECTFRAME(" @@@ ", 1.08f, Color::eGreen),
-	Effect::EFFECTFRAME("@@@@ ", 1.08f, Color::eRed),
-	Effect::EFFECTFRAME("  +1 ", 1.5f, Color::eGreen)
+	/*Effect::EFFECTFRAME("   ¡Ù", 0.08f, Color::eRed),
+	Effect::EFFECTFRAME("¡Ú   ", 0.08f, Color::eBlue),
+	Effect::EFFECTFRAME("   ¡Ù", 0.08f, Color::eBlue),
+	Effect::EFFECTFRAME(" ¡Ú¡Ù¡Ú", 0.08f, Color::eGreen),
+	Effect::EFFECTFRAME("¡Ù¡Ú¡Ù¡Ú  ", 0.08f, Color::eWhite),
+	Effect::EFFECTFRAME("  ¡Ú¡Ù¡Ú¡Ù", 0.08f, Color::eRed),
+	Effect::EFFECTFRAME("¡Ù¡Ú¡Ù¡Ú¡Ù ", 0.08f, Color::eBlue),
+	Effect::EFFECTFRAME(" ¡Ú¡Ù¡Ú¡Ù¡Ú", 0.08f, Color::eGreen),
+	Effect::EFFECTFRAME("¡Ù¡Ú¡Ù¡Ú¡Ù¡Ú", 0.08f, Color::eWhite),
+	Effect::EFFECTFRAME("  X  ", 0.5f, Color::eGreen)*/
+	Effect::EFFECTFRAME("¡Ù ", 0.08f, Color::eBlue),
+	Effect::EFFECTFRAME("¡Ú ", 0.08f, Color::eGreen),
+	Effect::EFFECTFRAME("¡Ù ", 0.08f, Color::eRed),
+	Effect::EFFECTFRAME("¡Ú ", 0.08f, Color::eBlue),
+	Effect::EFFECTFRAME("¡Ù ", 0.08f, Color::eGreen),
+	Effect::EFFECTFRAME("¡Ú ", 0.08f, Color::eRed),
+	Effect::EFFECTFRAME("¡Ù ", 0.08f, Color::eBlue),
+	Effect::EFFECTFRAME("¡Ú ", 0.08f, Color::eGreen),
+	Effect::EFFECTFRAME("¡Ù ", 0.08f, Color::eRed),
+	Effect::EFFECTFRAME("¡Ú ", 0.08f, Color::eBlue),
+	Effect::EFFECTFRAME("¡Ù ", 0.08f, Color::eGreen),
+	Effect::EFFECTFRAME("¡Ú ", 0.08f, Color::eRed),
 };
 
 Effect::Effect(const Vector2& position)
 	: super(sequence[0].frame, nullptr, position, Color::eRed)
 {
-	m_iSortingOrder = 100;
+	m_iSortingOrder = 11;
 
 	int effectFrameImageLength = 6;
 
@@ -32,6 +49,7 @@ Effect::Effect(const Vector2& position)
 
 void Effect::BeginPlay()
 {
+	super::BeginPlay();
 }
 
 void Effect::Tick(float deltaTime)

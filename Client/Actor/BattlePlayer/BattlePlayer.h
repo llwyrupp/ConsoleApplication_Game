@@ -2,6 +2,7 @@
 #ifndef __BATTLEPLAYER_H__
 #define __BATTLEPLAYER_H__
 #include "ClientCommon/Client_Struct.h"
+#include "ClientCommon/Client_Enum.h"
 #include "EngineCommon/RTTI.h"
 #include "Actor/Actor.h"
 
@@ -26,6 +27,8 @@ private:
 	PLAYERINFO m_tInfo = {};
 private:
 	static BattlePlayer* m_pInstance;
+private:
+	E_PLAYERACTION m_eCurPlayerAction = E_PLAYERACTION::E_PLAYERACTION_NONE;
 };
 
 

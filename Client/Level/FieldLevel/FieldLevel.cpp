@@ -15,6 +15,8 @@
 
 using namespace System;
 
+float FieldLevel::s_DelayEscapeTime = 5.f;
+
 FieldLevel::FieldLevel()
 {
 #ifdef _DEBUG
@@ -30,8 +32,8 @@ FieldLevel::FieldLevel()
 
 	//read player stat from file.
 	
-#elif
-	LoadMap();//release mod.
+#else
+	LoadMap("../Data/Map/Field3.txt");//release mod.
 #endif
 }
 
@@ -81,6 +83,13 @@ void FieldLevel::Tick(float _fDeltaTime)
 {
 	super::Tick(_fDeltaTime);
 
+	if ((m_fAccEscapeTime > s_DelayEscapeTime) && m_bHasPlayerEscaped)
+	{
+		m_fAccEscapeTime = 0.f;
+		m_bHasPlayerEscaped = false;
+	}
+
+
 	if(!Game::Get_Instance().GetIsInBattle())
 		CheckCollisions();
 }
@@ -97,6 +106,9 @@ void FieldLevel::Render()
 		Util::SetConsolePos(Vector2(30, 0));
 		Util::SetConsoleTextColor(Color::eWhite);
 		std::cout << "Game Clear!";
+
+		Sleep(3000);
+		Game::Get_Instance().QuitEngine();
 	}
 }
 
@@ -151,8 +163,10 @@ void FieldLevel::LoadMap(const char* pPath /*= nullptr*/)
 			AddNewActor(new Enemy("S", nullptr, vPos, Color::eRed,
 					//"../Data/Enemy/villager1.txt", "Villager1",100,10,5));
 					"../Data/Enemy/slime.txt", "Zombie", 100, 15, 5, E_ENEMY_TYPE::E_ENEMY_ZOMBIE));
-#elif
-			
+#else
+			AddNewActor(new Enemy("S", nullptr, vPos, Color::eRed,
+				//"../Data/Enemy/villager1.txt", "Villager1",100,10,5));
+				"../Data/Enemy/slime.txt", "Zombie", 100, 15, 5, E_ENEMY_TYPE::E_ENEMY_ZOMBIE));
 			//int iRandNum = Util::RandomInt(0, 3);
 			//if (iRandNum == 0) {
 			//	AddNewActor(new Enemy("S", nullptr, vPos, Color::eRed,
@@ -212,7 +226,7 @@ void FieldLevel::CheckCollisions()
 	}
 
 	Enemy* pEnemy = nullptr;
-	if (pEnemy = dynamic_cast<Enemy*>(System::CollisionMgr::Get_Instance().CheckCol_Player_Enemy(m_listPlayer, m_listEnemies)))
+	if ((pEnemy = dynamic_cast<Enemy*>(System::CollisionMgr::Get_Instance().CheckCol_Player_Enemy(m_listPlayer, m_listEnemies))) && !m_bHasPlayerEscaped)//do not check collision if player just escaped from enemy.
 	{
 
 		//start battlesystem

@@ -30,7 +30,8 @@ public:
 	inline const int& GetEnemyCnt() const { return m_iEnemyCnt; }
 	inline void SetIsInBattle(bool _bFlag) { m_bIsInBattle = _bFlag; }
 	inline const bool& GetIsInBattle() const { return m_bIsInBattle; }
-
+public:
+	Level* GetLevel(int _iIndex);
 private:
 	//manages all levels
 	vector<Level*>m_vecLevels;

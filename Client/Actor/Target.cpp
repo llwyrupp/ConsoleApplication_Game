@@ -9,12 +9,15 @@ Target::Target(const Vector2& position)
 
 void Target::BeginPlay()
 {
+	super::BeginPlay();
 }
 
 void Target::Tick(float _fDeltaTime)
 {
+	super::Tick(_fDeltaTime);
 }
 
 void Target::Render()
 {
+	super::Render();
 }

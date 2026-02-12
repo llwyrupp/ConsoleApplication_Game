@@ -59,7 +59,7 @@ void MenuLevel::Tick(float _fDeltaTime)
 		m_iCurMenuIdx = (m_iCurMenuIdx + 1) % length;
 	}
 
-	if (InputMgr::Get_Instance().GetKeyDown(VK_RETURN))
+	if (InputMgr::Get_Instance().GetKeyDown(VK_SPACE))
 	{
 		// 메뉴 아이템이 저장한 함수 포인터 호출.
 		m_vecMenuObjects[m_iCurMenuIdx]->fcOnSelected();

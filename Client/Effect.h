@@ -39,9 +39,9 @@ public:
 
 	Effect(const Vector2& position);
 
-	void BeginPlay() override;
-	virtual void Tick(float deltaTime) override;
-	void Render() override;
+	virtual void BeginPlay() override;
+	virtual virtual void Tick(float deltaTime) override;
+	virtual void Render() override;
 
 private:
 

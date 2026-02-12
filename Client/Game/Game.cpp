@@ -33,8 +33,9 @@ Game::Game()
 
 #ifdef _DEBUG
 	m_pMainLevel = m_vecLevels[1];//fieldlevel
-#elif
-	m_pMainLevel = *(m_vecLevels.begin());//menulevel
+#else
+	m_pMainLevel = m_vecLevels[1];//fieldlevel
+	//m_pMainLevel = *(m_vecLevels.begin());//menulevel
 #endif
 	Util::SetRandomSeed();
 }
@@ -128,4 +129,12 @@ const void Game::EraseLevel(const Level* pLevel)
 			continue;
 		}
 	}
+}
+
+Level* Game::GetLevel(int _iIndex)
+{
+	if (_iIndex >= m_vecLevels.size())
+		return nullptr;
+
+	return m_vecLevels[_iIndex];
 }
