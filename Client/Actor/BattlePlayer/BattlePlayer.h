@@ -19,7 +19,7 @@ public:
 	virtual void Tick(float _fDeltaTime) override;
 	virtual void Render() override;
 public:
-	inline const PLAYERINFO& GetInfo() const { return m_tInfo; }
+	inline const PLAYERINFO GetInfo() const { return m_tInfo; }
 	inline void SetPlayerHP(int _iHP) { m_tInfo.iHP = _iHP; }
 	void LoadPlayerStat(const char* _pPath);
 	void SavePlayerStat(const char* _pPath);

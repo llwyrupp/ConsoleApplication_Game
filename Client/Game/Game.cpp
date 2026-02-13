@@ -10,7 +10,6 @@
 using namespace System;
 
 Game* Game::m_pInstance = nullptr;
-BattlePlayer* Game::m_pBattlePlayer = nullptr;
 
 Game::Game()
 {

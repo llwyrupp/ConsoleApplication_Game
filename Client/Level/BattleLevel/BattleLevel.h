@@ -39,13 +39,13 @@ public://player's actions(user-updated)
 	void PlayerUseItem();
 	void PlayerTryRun();
 public:
-	inline const E_BATTLESEQUENCE& GetBattleSequence() const { return m_eBattleSeq; }
-	inline void SetBattleSequence(const E_BATTLESEQUENCE& _eSeq) { m_eBattleSeq = _eSeq; }
-	inline const E_PLAYERACTION& GetPlayerAction() const { return m_ePlayerAction; }
-	inline void SetPlayerAction(const E_PLAYERACTION& _eAction) { m_ePlayerAction = _eAction; }
-	inline const int& GetCurInvenIdx() const { return m_iCurInventoryIndex; }
+	inline const E_BATTLESEQUENCE GetBattleSequence() const { return m_eBattleSeq; }
+	inline void SetBattleSequence(const E_BATTLESEQUENCE _eSeq) { m_eBattleSeq = _eSeq; }
+	inline const E_PLAYERACTION GetPlayerAction() const { return m_ePlayerAction; }
+	inline void SetPlayerAction(const E_PLAYERACTION _eAction) { m_ePlayerAction = _eAction; }
+	inline const int GetCurInvenIdx() const { return m_iCurInventoryIndex; }
 	inline void SetCurInvenIdx(int _iIdx) { m_iCurInventoryIndex = _iIdx; }
-	inline const int& GetCurActionChoiceArrowIdx() const { return m_iCurActionChoiceArrowIdx; }
+	inline const int GetCurActionChoiceArrowIdx() const { return m_iCurActionChoiceArrowIdx; }
 	inline void SetCurActionChoiceArrowIdx(int _iIdx) { m_iCurActionChoiceArrowIdx = _iIdx; }
 	
 public:

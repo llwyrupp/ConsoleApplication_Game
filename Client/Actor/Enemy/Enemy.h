@@ -24,7 +24,7 @@ public:
 	void SetBattleImage(const char* _pPath);
 	void PrintBattleImage() const;
 public:
-	inline const ENEMYINFO& GetInfo() const { return m_tInfo; }
+	inline const ENEMYINFO GetInfo() const { return m_tInfo; }
 	inline void SetEnemyHP(int _iHP) { m_tInfo.iHP = _iHP; }
 protected:
 	ENEMYINFO m_tInfo = {};
